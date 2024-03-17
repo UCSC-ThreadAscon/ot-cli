@@ -11,6 +11,7 @@
  * software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
  * CONDITIONS OF ANY KIND, either express or implied.
 */
+#include "txpower.h"
 
 #include <stdio.h>
 #include <unistd.h>
@@ -91,6 +92,9 @@ static void ot_task_worker(void *aContext)
 #if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
     esp_cli_custom_command_init();
 #endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
+
+  // TX power must be set before starting the OpenThread CLI.
+  setTxPower();
 
     // Run the main loop
 #if CONFIG_OPENTHREAD_CLI
