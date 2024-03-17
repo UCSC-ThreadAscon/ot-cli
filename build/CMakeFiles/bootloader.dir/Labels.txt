@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/Users/simeon/Desktop/Repositories/ot_cli/build/CMakeFiles/bootloader
+/Users/simeon/Desktop/Repositories/ot_cli/build/CMakeFiles/bootloader.rule
+/Users/simeon/Desktop/Repositories/ot_cli/build/CMakeFiles/bootloader-complete.rule
+/Users/simeon/Desktop/Repositories/ot_cli/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/Users/simeon/Desktop/Repositories/ot_cli/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/simeon/Desktop/Repositories/ot_cli/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/simeon/Desktop/Repositories/ot_cli/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/simeon/Desktop/Repositories/ot_cli/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/simeon/Desktop/Repositories/ot_cli/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/simeon/Desktop/Repositories/ot_cli/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
