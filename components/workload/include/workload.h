@@ -12,6 +12,8 @@
 #include "openthread/tasklet.h"
 #include "openthread/coap_secure.h"
 
+#include "x509_cert_key.h"
+
 #define COAP_SOCK_PORT 12345
 #define COAP_DEST_PORT 54321
 
