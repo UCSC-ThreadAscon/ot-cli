@@ -133,14 +133,17 @@ void app_main(void)
     xTaskCreate(ot_task_worker, "ot_cli_main", 10240, xTaskGetCurrentTaskHandle(), 5, NULL);
 
     /** ---- Set up the CoAP Server ---- */
+    checkConnection(esp_openthread_get_instance());
     x509Init();
 
     otCoapSecureStart(esp_openthread_get_instance(), COAP_SOCK_PORT);
+    otLogNotePlat("Started CoAP server at port %d", COAP_SOCK_PORT);
 
     // CoAP server handling periodic packets.
     otCoapResource periodicResource;
     createPeriodicResource(&periodicResource);
     otCoapSecureAddResource(esp_openthread_get_instance(), &periodicResource);
+    otLogNotePlat("Set up resource URI: '%s'.", periodicResource.mUriPath);
 
     /**
      * Keep the "main" thread running on an infinite loop,
