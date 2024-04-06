@@ -135,6 +135,8 @@ void app_main(void)
     /** ---- Set up the CoAP Server ---- */
     x509Init();
 
+    otCoapSecureStart(esp_openthread_get_instance(), COAP_SOCK_PORT);
+
     // CoAP server handling periodic packets.
     otCoapResource periodicResource;
     createPeriodicResource(&periodicResource);
