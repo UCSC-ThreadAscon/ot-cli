@@ -134,4 +134,16 @@ void app_main(void)
 
     /** ---- Set up the CoAP Server ---- */
     x509Init();
+
+    // CoAP server handling periodic packets.
+    otCoapResource periodicResource;
+    createPeriodicResource(&periodicResource);
+    otCoapSecureAddResource(esp_openthread_get_instance(), &periodicResource);
+
+    /**
+     * Keep the "main" thread running on an infinite loop,
+     * so the OpenThread worker thread will always be able
+     * to access any stack memory variables that I have allocated.
+     */
+    while (true) { vTaskDelay(MAIN_WAIT_TIME); }
 }

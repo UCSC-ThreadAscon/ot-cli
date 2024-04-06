@@ -57,8 +57,10 @@ static inline void EmptyMemory(void* pointer, size_t size) {
 #define MS_TO_MICRO(ms) ms * 1000
 
 #define CONNECTION_WAIT_TIME_MS MS_TO_TICKS(100)
+#define MAIN_WAIT_TIME MS_TO_TICKS(5000) // 5 seconds
 
 void checkConnection(otInstance *aInstance);
 
 /* ---- CoAPS Server API ---- */
 void x509Init();
+otError createPeriodicResource(otCoapResource *periodic);

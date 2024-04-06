@@ -22,17 +22,15 @@ void periodicRequestHandler(void *aContext, otMessage *aMessage, const otMessage
   return;
 }
 
-otError periodicResource(otCoapResource *periodic) {
+otError createPeriodicResource(otCoapResource *periodic) {
   periodic->mNext = NULL;
   periodic->mContext = NULL;
 
   periodic->mUriPath = "periodic";
-
-  // TO-DO: Create Handler
   periodic->mHandler = periodicRequestHandler;
   return OT_ERROR_NONE;
 }
 
-otError aPeriodicResource() {
+otError createAPeriodicResource() {
   return OT_ERROR_NONE;
 }
