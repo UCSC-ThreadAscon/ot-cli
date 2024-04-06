@@ -25,3 +25,6 @@
 #define CONNECTION_WAIT_TIME_MS MS_TO_TICKS(100)
 
 void checkConnection(otInstance *aInstance);
+
+/* ---- CoAPS Server API ---- */
+void x509Init();

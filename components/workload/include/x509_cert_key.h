@@ -46,8 +46,6 @@
 extern "C" {
 #endif
 
-#if OPENTHREAD_CONFIG_COAP_SECURE_API_ENABLE
-#if defined(MBEDTLS_KEY_EXCHANGE_ECDHE_ECDSA_ENABLED)
 
 /**SERVER
  * Generate your own private key and certificate using openssl.
@@ -108,8 +106,6 @@ extern "C" {
     "JXk3\r\n"                                                             \
     "-----END CERTIFICATE-----\r\n"
 
-#endif // MBEDTLS_KEY_EXCHANGE_ECDHE_ECDSA_ENABLED
-#endif // OPENTHREAD_CONFIG_COAP_SECURE_API_ENABLE
 
 /**
  * @}
