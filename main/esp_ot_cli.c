@@ -48,7 +48,7 @@
 #include "esp_ot_cli_extension.h"
 #endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
 
-#define TAG "ot_esp_cli"
+#define TAG "ot_cli"
 
 static esp_netif_t *init_openthread_netif(const esp_openthread_platform_config_t *config)
 {
