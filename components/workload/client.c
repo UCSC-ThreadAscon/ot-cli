@@ -22,7 +22,7 @@ void sendPeriodicRequest() {
     return;
   }
 
-  otCoapMessageInit(aRequest, OT_COAP_TYPE_NON_CONFIRMABLE, OT_COAP_CODE_POST);
+  otCoapMessageInit(aRequest, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_POST);
   otCoapMessageGenerateToken(aRequest, OT_COAP_DEFAULT_TOKEN_LENGTH);
 
   otError error = otCoapMessageAppendUriPathOptions(aRequest, PERIODIC_URI);
