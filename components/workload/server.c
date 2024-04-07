@@ -1,3 +1,12 @@
+/**
+ * All of the code in this file is based upon the CoAP source code used
+ * as a part of the OpenThread protocol.
+ *
+ * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap_secure.cpp
+ * https://github.com/openthread/openthread/blob/main/include/openthread/coap_secure.h
+ * https://github.com/openthread/openthread/blob/main/include/openthread/coap.h
+ * https://github.com/openthread/openthread/blob/main/src/cli/README_COAPS.md
+*/
 #include "workload.h"
 
 #include <stdio.h>
@@ -21,6 +30,29 @@ static inline uint16_t getPayloadLength(const otMessage *aMessage) {
   return otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);
 }
 
+void sendCoapResponse(otInstance *aInstance,
+                      uint16_t clientPort,
+                      otIp6Address *clientAddress,
+                      otMessage *aRequest,
+                      otMessageInfo *aMessageInfo)
+{
+  otMessage *aResponse;
+
+  aResponse = otCoapNewMessage(aInstance, NULL);
+  otError error = otCoapMessageInitResponse(aResponse, aRequest,
+                                            OT_COAP_TYPE_ACKNOWLEDGMENT,
+                                            OT_COAP_CODE_VALID);
+  if (error != OT_ERROR_NONE) {
+    otLogCritPlat("Failed to create a CoAP request.");
+  }
+
+  error = otCoapSendResponse(aInstance, aResponse, aMessageInfo);
+  if (error != OT_ERROR_NONE) {
+    otLogCritPlat("Failed to send a CoAP response");
+  }
+  return;
+}
+
 void periodicRequestHandler(void *aContext,
                             otMessage *aMessage,
                             const otMessageInfo *aMessageInfo)
@@ -28,9 +60,9 @@ void periodicRequestHandler(void *aContext,
   uint32_t length = getPayloadLength(aMessage);
 
   char senderAddress[OT_IP6_ADDRESS_STRING_SIZE];
-  getSockAddrString(aMessageInfo, senderAddress);
-
   char output[PRINT_STATEMENT_SIZE];
+
+  getSockAddrString(aMessageInfo, senderAddress);
   printCoapRequest(output, length, senderAddress);
   return;
 }
@@ -38,7 +70,6 @@ void periodicRequestHandler(void *aContext,
 otError createPeriodicResource(otCoapResource *periodic) {
   periodic->mNext = NULL;
   periodic->mContext = NULL;
-
   periodic->mUriPath = "periodic";
   periodic->mHandler = periodicRequestHandler;
   return OT_ERROR_NONE;
