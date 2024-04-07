@@ -154,20 +154,18 @@ void app_main(void)
 
     /** ---- CoAP Client Code ---- */
     otSockAddr socket;
-    const otNetifAddress *peer = NULL;
+    otIp6Address server;
 
     EmptyMemory(&socket, sizeof(otSockAddr));
+    EmptyMemory(&server, sizeof(otIp6Address));
 
-    while (peer == NULL) {
-      peer = otIp6GetUnicastAddresses(OT_INSTANCE);
-      if (peer != NULL) {
-        socket.mAddress = peer->mAddress;
-        socket.mPort = COAP_SECURE_SERVER_PORT;
-        clientConnect(&socket);
-      }
-      else {
-        vTaskDelay(MAIN_WAIT_TIME);
-      }
+    otIp6AddressFromString(CONFIG_SERVER_IP_ADDRESS, &server);
+    socket.mAddress = server;
+    socket.mPort = COAP_SECURE_SERVER_PORT;
+
+    while (!otCoapSecureIsConnected(OT_INSTANCE)) {
+      clientConnect(&socket);
+      vTaskDelay(MAIN_WAIT_TIME);
     }
 
     /**

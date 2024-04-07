@@ -66,5 +66,7 @@ void x509Init();
 otError createPeriodicResource(otCoapResource *periodic);
 
 /* ---- COAPS Client API ---- */
+extern bool connected;
+
 void clientConnect(const otSockAddr *socket);
 void clientDisconect();
