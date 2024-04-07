@@ -31,24 +31,20 @@ static inline uint16_t getPayloadLength(const otMessage *aMessage) {
 }
 
 void sendCoapResponse(otInstance *aInstance,
-                      uint16_t clientPort,
-                      otIp6Address *clientAddress,
                       otMessage *aRequest,
-                      otMessageInfo *aMessageInfo)
+                      const otMessageInfo *aMessageInfo)
 {
-  otMessage *aResponse;
-
-  aResponse = otCoapNewMessage(aInstance, NULL);
+  otMessage *aResponse = otCoapNewMessage(aInstance, NULL);
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
                                             OT_COAP_TYPE_ACKNOWLEDGMENT,
                                             OT_COAP_CODE_VALID);
   if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Failed to create a CoAP request.");
+    otLogCritPlat("Failed to create a CoAP response.");
   }
 
   error = otCoapSendResponse(aInstance, aResponse, aMessageInfo);
   if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Failed to send a CoAP response");
+    otLogCritPlat("Failed to send a CoAP response.");
   }
   return;
 }
@@ -64,6 +60,8 @@ void periodicRequestHandler(void *aContext,
 
   getSockAddrString(aMessageInfo, senderAddress);
   printCoapRequest(output, length, senderAddress);
+
+  sendCoapResponse(esp_openthread_get_instance(), aMessage, aMessageInfo);
   return;
 }
 
