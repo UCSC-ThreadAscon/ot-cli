@@ -46,7 +46,7 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   HandleMessageError(aResponse, error);
 
   char* response = "hello";
-  error = otMessageAppend(aResponse, response, 5);
+  error = otMessageAppend(aResponse, response, 20);
   HandleMessageError(aResponse, error);
 
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
