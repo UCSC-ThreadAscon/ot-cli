@@ -5,7 +5,7 @@
 
 #include <assert.h>
 
-void handleError(otError error, const char* desc)
+void handleError(otError error, char* desc)
 {
   if (error != OT_ERROR_NONE) {
     otLogCritPlat("%s error: %s", desc, otThreadErrorToString(error));

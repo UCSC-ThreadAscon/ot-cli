@@ -59,12 +59,12 @@ static inline void EmptyMemory(void* pointer, size_t size) {
 #define MAIN_WAIT_TIME MS_TO_TICKS(5000) // 5 seconds
 
 void checkConnection(otInstance *aInstance);
-void handleError(otError error, const char* desc);
+void handleError(otError error, char* desc);
 void x509Init();
 
-#define HandleMessageError(aMessage, error, desc)       \
+#define HandleMessageError(desc, aMessage, error)       \
   otMessageFree(aMessage);                              \
-  handleError(desc, error);                             \
+  handleError(error, desc);                             \
 
 /* ---- CoAPS Server API ---- */
 otError createPeriodicResource(otCoapResource *periodic);
