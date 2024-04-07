@@ -50,6 +50,7 @@
 #endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
 
 #define TAG "ot_cli"
+#define COAP_SECURE_SERVER_PORT CONFIG_COAP_SECURE_SERVER_PORT
 
 static esp_netif_t *init_openthread_netif(const esp_openthread_platform_config_t *config)
 {
@@ -137,12 +138,12 @@ void app_main(void)
     checkConnection(OT_INSTANCE);
     x509Init();
 
-    otError error = otCoapSecureStart(OT_INSTANCE, OT_DEFAULT_COAP_SECURE_PORT);
+    otError error = otCoapSecureStart(OT_INSTANCE, COAP_SECURE_SERVER_PORT);
     if (error != OT_ERROR_NONE) {
       otLogCritPlat("Failed to start COAPS server.");
     } else {
       otLogNotePlat("Started CoAPS server at port %d.",
-                    OT_DEFAULT_COAP_SECURE_PORT);
+                    COAP_SECURE_SERVER_PORT);
     }
 
     // CoAP server handling periodic packets.
@@ -154,7 +155,7 @@ void app_main(void)
     /** ---- CoAP Client Code ---- */
     otSockAddr socket;
     socket.mAddress = otIp6GetUnicastAddresses(OT_INSTANCE)->mAddress;
-    socket.mPort = OT_DEFAULT_COAP_SECURE_PORT;
+    socket.mPort = COAP_SECURE_SERVER_PORT;
 
     clientConnect(&socket);
 
