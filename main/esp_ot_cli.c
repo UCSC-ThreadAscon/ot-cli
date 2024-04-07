@@ -176,5 +176,7 @@ void app_main(void)
         vTaskDelay(MS_TO_TICKS(3000));
       }
      }
+
+    while (true) { vTaskDelay(MAIN_WAIT_TIME); }
     return;
 }
