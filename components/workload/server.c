@@ -30,12 +30,16 @@ static inline uint16_t getPayloadLength(const otMessage *aMessage) {
   return otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);
 }
 
-static inline void handleCoapResponseError(otError error) {
-  if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Error code: %s", otThreadErrorToString(error));
-  } else {
-    otLogNotePlat("Success.");
+static inline void handleCoapResponseError(otInstance *aInstance, otError error) {
+  switch (error) {
+    case (OT_ERROR_NONE):
+      otLogNotePlat("Success.");
+      break;
+
+    default:
+      otLogCritPlat("Error: %s", otThreadErrorToString(error));
   }
+
   return;
 }
 
@@ -51,24 +55,20 @@ void sendCoapResponse(otInstance *aInstance,
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
                                             OT_COAP_TYPE_ACKNOWLEDGMENT,
                                             OT_COAP_CODE_VALID);
-  handleCoapResponseError(error);
+  handleCoapResponseError(aInstance, error);
 
   error = otCoapMessageSetPayloadMarker(aResponse);
-  handleCoapResponseError(error);
+  handleCoapResponseError(aInstance, error);
 
   char* response = "hello";
   error = otMessageAppend(aResponse, response, sizeof(response));
-  handleCoapResponseError(error);
+  handleCoapResponseError(aInstance, error);
 
-  otMessageInfo aResponseInfo;
-  aResponseInfo.mSockAddr = *otThreadGetMeshLocalEid(aInstance);
-  aResponseInfo.mSockPort = OT_DEFAULT_COAP_SECURE_PORT;
-  aResponseInfo.mPeerAddr = aRequestInfo->mPeerAddr;
-  aResponseInfo.mPeerPort = aRequestInfo->mPeerPort;
-  aResponseInfo.mHopLimit = 0;  // default
+  otLogNotePlat("aRequestInfo Sock Port: %" PRIu16 "", aRequestInfo->mSockPort);
+  otLogNotePlat("aRequestInfo Peer Port: %" PRIu16 "", aRequestInfo->mPeerPort);
 
-  error = otCoapSendResponse(aInstance, aResponse, &aResponseInfo);
-  handleCoapResponseError(error);
+  error = otCoapSendResponse(aInstance, aResponse, aRequestInfo);
+  handleCoapResponseError(aInstance, error);
 
   return;
 }
