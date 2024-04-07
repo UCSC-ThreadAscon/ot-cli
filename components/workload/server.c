@@ -30,6 +30,18 @@ static inline uint16_t getPayloadLength(const otMessage *aMessage) {
   return otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);
 }
 
+static inline void handleCoapResponseError(otError error) {
+  switch (error) {
+    case OT_ERROR_NONE:
+      otLogNotePlat("Sent CoAP Response.");
+      break;
+
+    default:
+      otLogCritPlat("Error code: %s", otThreadErrorToString(error));
+  }
+  return;
+}
+
 void sendCoapResponse(otInstance *aInstance,
                       otMessage *aRequest,
                       const otMessageInfo *aMessageInfo)
@@ -42,16 +54,13 @@ void sendCoapResponse(otInstance *aInstance,
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
                                             OT_COAP_TYPE_ACKNOWLEDGMENT,
                                             OT_COAP_CODE_VALID);
-  if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Failed to create a CoAP response.");
-  }
+  handleCoapResponseError(error);
+
+  error = otCoapMessageSetPayloadMarker(aResponse);
+  handleCoapResponseError(error);
 
   error = otCoapSendResponse(aInstance, aResponse, aMessageInfo);
-  if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Insufficient message buffers to send CoAP response.");
-  } else {
-    otLogNotePlat("Sent CoAP Response.");
-  }
+  handleCoapResponseError(error);
 
   return;
 }
