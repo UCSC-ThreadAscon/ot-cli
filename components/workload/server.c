@@ -5,20 +5,33 @@
 #include "stdint.h"
 #include "inttypes.h"
 
+void getSockAddrString(const otMessageInfo *aMessageInfo, char *ipString) {
+  otIp6AddressToString(&(aMessageInfo->mSockAddr), ipString,
+                       OT_IP6_ADDRESS_STRING_SIZE);
+  return;
+}
+
+void printCoapRequest(char *output, uint32_t payloadLen, char *ipString) {
+  sprintf(output, "Received %" PRIu32 " bytes from %s.", payloadLen, ipString);
+  otLogNotePlat(output);
+  return;
+}
+
 static inline uint16_t getPayloadLength(const otMessage *aMessage) {
   return otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);
 }
 
-void periodicRequestHandler(void *aContext, otMessage *aMessage, const otMessageInfo *aMessageInfo) {
+void periodicRequestHandler(void *aContext,
+                            otMessage *aMessage,
+                            const otMessageInfo *aMessageInfo)
+{
   uint32_t length = getPayloadLength(aMessage);
 
-  otIp6Address sender = aMessageInfo->mSockAddr;
-  char senderAddressString[OT_IP6_ADDRESS_STRING_SIZE];
-  otIp6AddressToString(&sender, senderAddressString, OT_IP6_ADDRESS_STRING_SIZE);
+  char senderAddress[OT_IP6_ADDRESS_STRING_SIZE];
+  getSockAddrString(aMessageInfo, senderAddress);
 
   char output[PRINT_STATEMENT_SIZE];
-  sprintf(output, "Received %" PRIu32 " bytes from %s.", length, (char *) &senderAddressString);
-  otLogNotePlat(output);
+  printCoapRequest(output, length, senderAddress);
   return;
 }
 
