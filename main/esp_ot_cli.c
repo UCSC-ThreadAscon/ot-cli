@@ -170,7 +170,8 @@ void app_main(void)
       }
       else {
         sendPeriodicRequest();
-        vTaskDelay(MS_TO_TICKS(72000));
+        break;
+        // vTaskDelay(MS_TO_TICKS(72000));
       }
      }
 }
