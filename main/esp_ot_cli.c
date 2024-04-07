@@ -154,10 +154,21 @@ void app_main(void)
 
     /** ---- CoAP Client Code ---- */
     otSockAddr socket;
-    socket.mAddress = otIp6GetUnicastAddresses(OT_INSTANCE)->mAddress;
-    socket.mPort = COAP_SECURE_SERVER_PORT;
+    const otNetifAddress *peer = NULL;
 
-    clientConnect(&socket);
+    EmptyMemory(&socket, sizeof(otSockAddr));
+
+    while (peer == NULL) {
+      peer = otIp6GetUnicastAddresses(OT_INSTANCE);
+      if (peer != NULL) {
+        socket.mAddress = peer->mAddress;
+        socket.mPort = COAP_SECURE_SERVER_PORT;
+        clientConnect(&socket);
+      }
+      else {
+        vTaskDelay(MAIN_WAIT_TIME);
+      }
+    }
 
     /**
      * Keep the "main" thread running on an infinite loop,

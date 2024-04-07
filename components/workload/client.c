@@ -25,12 +25,12 @@ void handleConnected(bool isConnected, void* context) {
 }
 
 void clientConnect(const otSockAddr *socket) {
+  char addrString[OT_IP6_ADDRESS_STRING_SIZE];
+  otIp6AddressToString(&(socket->mAddress), addrString, OT_IP6_ADDRESS_STRING_SIZE);
+  otLogNotePlat("Attempt CoAPS connection with %s.", (char *) addrString);
+
   otError error = otCoapSecureConnect(OT_INSTANCE, socket, handleConnected, NULL);
-  if (error == OT_ERROR_NONE) {
-    char* addrString[OT_IP6_ADDRESS_STRING_SIZE];
-    otIp6AddressToString(&(socket->mAddress), addrString, OT_IP6_ADDRESS_STRING_SIZE);
-    otLogNotePlat("Attempt CoAPS connection with %s", (char *) addrString);
-  }
+  handleError(error);
   return;
 }
 
