@@ -14,8 +14,8 @@
 #include "stdint.h"
 #include "inttypes.h"
 
-void getSockAddrString(const otMessageInfo *aMessageInfo, char *ipString) {
-  otIp6AddressToString(&(aMessageInfo->mSockAddr), ipString,
+void getPeerAddrString(const otMessageInfo *aMessageInfo, char *ipString) {
+  otIp6AddressToString(&(aMessageInfo->mPeerAddr), ipString,
                        OT_IP6_ADDRESS_STRING_SIZE);
   return;
 }
@@ -35,6 +35,10 @@ void sendCoapResponse(otInstance *aInstance,
                       const otMessageInfo *aMessageInfo)
 {
   otMessage *aResponse = otCoapNewMessage(aInstance, NULL);
+  if (aResponse == NULL) {
+    otLogCritPlat("Failed to initialize a new message for CoAP response.");
+  }
+
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
                                             OT_COAP_TYPE_ACKNOWLEDGMENT,
                                             OT_COAP_CODE_VALID);
@@ -44,8 +48,11 @@ void sendCoapResponse(otInstance *aInstance,
 
   error = otCoapSendResponse(aInstance, aResponse, aMessageInfo);
   if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Failed to send a CoAP response.");
+    otLogCritPlat("Insufficient message buffers to send CoAP response.");
+  } else {
+    otLogNotePlat("Sent CoAP Response.");
   }
+
   return;
 }
 
@@ -58,7 +65,7 @@ void periodicRequestHandler(void *aContext,
   char senderAddress[OT_IP6_ADDRESS_STRING_SIZE];
   char output[PRINT_STATEMENT_SIZE];
 
-  getSockAddrString(aMessageInfo, senderAddress);
+  getPeerAddrString(aMessageInfo, senderAddress);
   printCoapRequest(output, length, senderAddress);
 
   sendCoapResponse(esp_openthread_get_instance(), aMessage, aMessageInfo);
