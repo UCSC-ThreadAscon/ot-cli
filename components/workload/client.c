@@ -10,8 +10,8 @@
 #include "workload.h"
 
 /**
- * TODO: Search for all other devices in the network, and establish
- * a CoAP connection to them.
+ * TODO: Client finds a device in the network, establishes a CoAP connection,
+ * sends a packet, gets a response, then closes the connection.
 */
 
 void handleConnected(bool isConnected, void* context) {
@@ -19,13 +19,22 @@ void handleConnected(bool isConnected, void* context) {
     otLogNotePlat("DTLS conection has been created.");
   }
   else {
-    otLogNotePlat("DTLS Connection has been stopped.");
+    otLogNotePlat("DTLS Connection has been disconnected.");
   }
   return;
 }
 
 void clientConnect(const otSockAddr *socket) {
   otError error = otCoapSecureConnect(OT_INSTANCE, socket, handleConnected, NULL);
-  handleError(error);
+  if (error == OT_ERROR_NONE) {
+    char* addrString[OT_IP6_ADDRESS_STRING_SIZE];
+    otIp6AddressToString(&(socket->mAddress), addrString, OT_IP6_ADDRESS_STRING_SIZE);
+    otLogNotePlat("Attempt CoAPS connection with %s", (char *) addrString);
+  }
+  return;
+}
+
+void clientDisconect() {
+  otCoapSecureDisconnect(OT_INSTANCE);
   return;
 }

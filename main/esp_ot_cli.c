@@ -151,6 +151,13 @@ void app_main(void)
     otCoapSecureAddResource(OT_INSTANCE, &periodicResource);
     otLogNotePlat("Set up resource URI: '%s'.", periodicResource.mUriPath);
 
+    /** ---- CoAP Client Code ---- */
+    otSockAddr socket;
+    socket.mAddress = otIp6GetUnicastAddresses(OT_INSTANCE)->mAddress;
+    socket.mPort = OT_DEFAULT_COAP_SECURE_PORT;
+
+    clientConnect(&socket);
+
     /**
      * Keep the "main" thread running on an infinite loop,
      * so the OpenThread worker thread will always be able

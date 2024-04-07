@@ -515,11 +515,11 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
-# OpenThread CLI Example
+# UCSC Thread-ASCON Experiment Workload
 #
 CONFIG_OPENTHREAD_AUTO_START=y
 CONFIG_TX_POWER=20
-# end of OpenThread CLI Example
+# end of UCSC Thread-ASCON Experiment Workload
 
 #
 # OpenThread Device Role Indicator

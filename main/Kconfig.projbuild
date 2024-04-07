@@ -1,5 +1,4 @@
-menu "OpenThread CLI Example"
-
+menu "UCSC Thread-ASCON Experiment Workload"
     config OPENTHREAD_AUTO_START
         bool 'Enable the automatic start mode.'
         default False
