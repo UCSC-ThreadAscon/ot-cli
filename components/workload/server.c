@@ -42,6 +42,13 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
                                             OT_COAP_CODE_VALID);
   handleError(error);
 
+  error = otCoapMessageSetPayloadMarker(aResponse);
+  handleCoapResponseError(error);
+
+  char* response = "hello";
+  error = otMessageAppend(aResponse, response, sizeof(response));
+  handleCoapResponseError(error);
+
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
   handleError(error);
 
