@@ -26,14 +26,10 @@ void sendPeriodicRequest() {
   otCoapMessageGenerateToken(aRequest, OT_COAP_DEFAULT_TOKEN_LENGTH);
 
   otError error = otCoapMessageAppendUriPathOptions(aRequest, PERIODIC_URI);
-  if (error != OT_ERROR_NONE) {
-    otMessageFree(aRequest);
-    handleError(error);
-    return;
-  }
+  HandleMessageError(aRequest, error);
 
   error = otCoapSecureSendRequest(OT_INSTANCE, aRequest, NULL, NULL);
-  handleError(error);
+  HandleMessageError(aRequest, error);
   return;
 }
 

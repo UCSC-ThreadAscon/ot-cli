@@ -62,6 +62,10 @@ void checkConnection(otInstance *aInstance);
 void handleError(otError error);
 void x509Init();
 
+#define HandleMessageError(aMessage, error)       \
+  otMessageFree(aMessage);                        \
+  handleError(error);                             \
+
 /* ---- CoAPS Server API ---- */
 otError createPeriodicResource(otCoapResource *periodic);
 
