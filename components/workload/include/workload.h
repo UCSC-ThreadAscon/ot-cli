@@ -70,3 +70,4 @@ extern bool connected;
 
 void clientConnect(const otSockAddr *socket);
 void clientDisconect();
+void sendPeriodicRequest();

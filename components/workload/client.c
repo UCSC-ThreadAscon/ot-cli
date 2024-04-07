@@ -13,6 +13,29 @@
  * TODO: Client finds a device in the network, establishes a CoAP connection,
  * sends a packet, gets a response, then closes the connection.
 */
+#define PERIODIC_URI "periodic"
+
+void sendPeriodicRequest() {
+  otMessage *aRequest = otCoapNewMessage(OT_INSTANCE, NULL);
+  if (aRequest == NULL) {
+    otLogCritPlat("Failed to create CoAP request.");
+    return;
+  }
+
+  otCoapMessageInit(aRequest, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_POST);
+  otCoapMessageGenerateToken(aRequest, OT_COAP_DEFAULT_TOKEN_LENGTH);
+
+  otError error = otCoapMessageAppendUriPathOptions(aRequest, PERIODIC_URI);
+  if (error != OT_ERROR_NONE) {
+    otMessageFree(aRequest);
+    handleError(error);
+    return;
+  }
+
+  error = otCoapSecureSendRequest(OT_INSTANCE, aRequest, NULL, NULL);
+  handleError(error);
+  return;
+}
 
 void handleConnected(bool isConnected, void* context) {
   if (isConnected) {
