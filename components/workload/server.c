@@ -1,6 +1,6 @@
 /**
  * All of the code in this file is based upon the CoAP source code used
- * as a part of the OpenThread protocol.
+ * as a part of the OpenThread codebase.
  *
  * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap_secure.cpp
  * https://github.com/openthread/openthread/blob/main/include/openthread/coap_secure.h
@@ -30,24 +30,9 @@ static inline uint16_t getPayloadLength(const otMessage *aMessage) {
   return otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);
 }
 
-static inline void handleCoapResponseError(otInstance *aInstance, otError error) {
-  switch (error) {
-    case (OT_ERROR_NONE):
-      otLogNotePlat("Success.");
-      break;
-
-    default:
-      otLogCritPlat("Error: %s", otThreadErrorToString(error));
-  }
-
-  return;
-}
-
-void sendCoapResponse(otInstance *aInstance,
-                      otMessage *aRequest,
-                      const otMessageInfo *aRequestInfo)
+void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
 {
-  otMessage *aResponse = otCoapNewMessage(aInstance, NULL);
+  otMessage *aResponse = otCoapNewMessage(OT_INSTANCE, NULL);
   if (aResponse == NULL) {
     otLogCritPlat("Failed to initialize a new message for CoAP response.");
   }
@@ -55,20 +40,10 @@ void sendCoapResponse(otInstance *aInstance,
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
                                             OT_COAP_TYPE_ACKNOWLEDGMENT,
                                             OT_COAP_CODE_VALID);
-  handleCoapResponseError(aInstance, error);
+  handleError(error);
 
-  error = otCoapMessageSetPayloadMarker(aResponse);
-  handleCoapResponseError(aInstance, error);
-
-  char* response = "hello";
-  error = otMessageAppend(aResponse, response, sizeof(response));
-  handleCoapResponseError(aInstance, error);
-
-  otLogNotePlat("aRequestInfo Sock Port: %" PRIu16 "", aRequestInfo->mSockPort);
-  otLogNotePlat("aRequestInfo Peer Port: %" PRIu16 "", aRequestInfo->mPeerPort);
-
-  error = otCoapSendResponse(aInstance, aResponse, aRequestInfo);
-  handleCoapResponseError(aInstance, error);
+  error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
+  handleError(error);
 
   return;
 }
@@ -85,7 +60,7 @@ void periodicRequestHandler(void *aContext,
   getPeerAddrString(aMessageInfo, senderAddress);
   printCoapRequest(output, length, senderAddress);
 
-  sendCoapResponse(esp_openthread_get_instance(), aMessage, aMessageInfo);
+  sendCoapResponse(aMessage, aMessageInfo);
   return;
 }
 

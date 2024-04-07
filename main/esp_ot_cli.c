@@ -130,23 +130,25 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_vfs_eventfd_register(&eventfd_config));
-    xTaskCreate(ot_task_worker, "ot_cli_main", 10240, xTaskGetCurrentTaskHandle(), 5, NULL);
+    xTaskCreate(ot_task_worker, "ot_cli_main", 10240,
+                xTaskGetCurrentTaskHandle(), 5, NULL);
 
     /** ---- Set up the CoAP Server ---- */
-    checkConnection(esp_openthread_get_instance());
+    checkConnection(OT_INSTANCE);
     x509Init();
 
-    otError error = otCoapSecureStart(esp_openthread_get_instance(), OT_DEFAULT_COAP_SECURE_PORT);
+    otError error = otCoapSecureStart(OT_INSTANCE, OT_DEFAULT_COAP_SECURE_PORT);
     if (error != OT_ERROR_NONE) {
       otLogCritPlat("Failed to start COAPS server.");
     } else {
-      otLogNotePlat("Started CoAPS server at port %d.", OT_DEFAULT_COAP_SECURE_PORT);
+      otLogNotePlat("Started CoAPS server at port %d.",
+                    OT_DEFAULT_COAP_SECURE_PORT);
     }
 
     // CoAP server handling periodic packets.
     otCoapResource periodicResource;
     createPeriodicResource(&periodicResource);
-    otCoapSecureAddResource(esp_openthread_get_instance(), &periodicResource);
+    otCoapSecureAddResource(OT_INSTANCE, &periodicResource);
     otLogNotePlat("Set up resource URI: '%s'.", periodicResource.mUriPath);
 
     /**

@@ -33,6 +33,8 @@
 */
 #define PRINT_STATEMENT_SIZE 72
 
+#define OT_INSTANCE esp_openthread_get_instance()
+
 /**
  * Empties all memory for `size` bytes starting at memory address `pointer`.
  *
@@ -57,7 +59,10 @@ static inline void EmptyMemory(void* pointer, size_t size) {
 #define MAIN_WAIT_TIME MS_TO_TICKS(5000) // 5 seconds
 
 void checkConnection(otInstance *aInstance);
+void handleError(otError error);
+void x509Init();
 
 /* ---- CoAPS Server API ---- */
-void x509Init();
 otError createPeriodicResource(otCoapResource *periodic);
+
+/* ---- COAPS Client API ---- */

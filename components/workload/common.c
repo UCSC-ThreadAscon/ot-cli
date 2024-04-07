@@ -5,8 +5,13 @@
 
 #include <assert.h>
 
-#define UnhandledError()                                        \
-    otLogCritPlat("Cannot Handle Error: %" PRIu8 ",", error)    \
+void handleError(otError error)
+{
+  if (error != OT_ERROR_NONE) {
+    otLogCritPlat("Error: %s", otThreadErrorToString(error));
+  }
+  return;
+}
 
 void checkConnection(otInstance *aInstance) {
   otDeviceRole currentRole;
