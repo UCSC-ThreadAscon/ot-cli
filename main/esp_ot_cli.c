@@ -163,15 +163,10 @@ void app_main(void)
     socket.mAddress = server;
     socket.mPort = COAP_SECURE_SERVER_PORT;
 
-    while (!otCoapSecureIsConnected(OT_INSTANCE)) {
-      clientConnect(&socket);
+    while (true) {
+      if (!otCoapSecureIsConnected(OT_INSTANCE)) {
+        clientConnect(&socket);
+      }
       vTaskDelay(MAIN_WAIT_TIME);
-    }
-
-    /**
-     * Keep the "main" thread running on an infinite loop,
-     * so the OpenThread worker thread will always be able
-     * to access any stack memory variables that I have allocated.
-     */
-    while (true) { vTaskDelay(MAIN_WAIT_TIME); }
+     }
 }
