@@ -15,6 +15,15 @@
 */
 #define PERIODIC_URI "periodic"
 
+void handleResponse(void *aContext,
+                    otMessage *aMessage,
+                    const otMessageInfo *aMessageInfo,
+                    otError aResult)
+{
+  otLogNotePlat("Recevied a response. Error: %s", otThreadErrorToString(aResult));
+  return;
+}
+
 void sendPeriodicRequest() {
   otMessage *aRequest = otCoapNewMessage(OT_INSTANCE, NULL);
   if (aRequest == NULL) {
@@ -22,13 +31,13 @@ void sendPeriodicRequest() {
     return;
   }
 
-  otCoapMessageInit(aRequest, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_GET);
+  otCoapMessageInit(aRequest, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_POST);
   otCoapMessageGenerateToken(aRequest, OT_COAP_DEFAULT_TOKEN_LENGTH);
 
   otError error = otCoapMessageAppendUriPathOptions(aRequest, PERIODIC_URI);
   HandleMessageError("append uri options", aRequest, error);
 
-  error = otCoapSecureSendRequest(OT_INSTANCE, aRequest, NULL, NULL);
+  error = otCoapSecureSendRequest(OT_INSTANCE, aRequest, handleResponse, NULL);
   HandleMessageError("send request", aRequest, error);
   return;
 }
