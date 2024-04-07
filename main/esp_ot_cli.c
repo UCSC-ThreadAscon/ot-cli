@@ -138,7 +138,10 @@ void app_main(void)
     checkConnection(OT_INSTANCE);
     x509Init();
 
-    otError error = otCoapSecureStart(OT_INSTANCE, COAP_SECURE_SERVER_PORT);
+    otError error =
+      otCoapSecureStartWithMaxConnAttempts(OT_INSTANCE, COAP_SECURE_SERVER_PORT,
+                                           0, NULL, NULL);
+
     if (error != OT_ERROR_NONE) {
       otLogCritPlat("Failed to start COAPS server.");
     } else {
@@ -164,14 +167,14 @@ void app_main(void)
     socket.mPort = COAP_SECURE_SERVER_PORT;
 
     while (true) {
-      if (!otCoapSecureIsConnected(OT_INSTANCE)) {
-        clientConnect(&socket);
-        vTaskDelay(MAIN_WAIT_TIME);
-      }
-      else {
+      if (otCoapSecureIsConnected(OT_INSTANCE)) {
         sendPeriodicRequest();
         break;
-        // vTaskDelay(MS_TO_TICKS(72000));
+      }
+      else {
+        clientConnect(&socket);
+        vTaskDelay(MS_TO_TICKS(3000));
       }
      }
+    return;
 }
