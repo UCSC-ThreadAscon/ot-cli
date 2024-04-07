@@ -19,7 +19,7 @@ void handleConnected(bool isConnected, void* context) {
     otLogNotePlat("DTLS conection has been created.");
   }
   else {
-    otLogNotePlat("DTLS Connection has been disconnected.");
+    otLogNotePlat("DTLS connection has been disconnected.");
   }
   return;
 }
