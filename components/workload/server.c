@@ -43,11 +43,11 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   handleError(error);
 
   error = otCoapMessageSetPayloadMarker(aResponse);
-  handleCoapResponseError(error);
+  handleError(error);
 
   char* response = "hello";
   error = otMessageAppend(aResponse, response, sizeof(response));
-  handleCoapResponseError(error);
+  handleError(error);
 
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
   handleError(error);
