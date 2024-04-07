@@ -48,9 +48,6 @@ static inline void EmptyMemory(void* pointer, size_t size) {
   return;
 }
 
-#define COAP_SOCK_PORT 12345
-#define COAP_DEST_PORT 54321
-
 #define OT_DISCONNECTED(role) (role == OT_DEVICE_ROLE_DISABLED) || (role == OT_DEVICE_ROLE_DETACHED)
 
 #define MS_TO_TICKS(ms) ms / portTICK_PERIOD_MS

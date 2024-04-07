@@ -136,8 +136,12 @@ void app_main(void)
     checkConnection(esp_openthread_get_instance());
     x509Init();
 
-    otCoapSecureStart(esp_openthread_get_instance(), COAP_SOCK_PORT);
-    otLogNotePlat("Started CoAP server at port %d", COAP_SOCK_PORT);
+    otError error = otCoapSecureStart(esp_openthread_get_instance(), OT_DEFAULT_COAP_SECURE_PORT);
+    if (error != OT_ERROR_NONE) {
+      otLogCritPlat("Failed to start COAPS server.");
+    } else {
+      otLogNotePlat("Started CoAPS server at port %d.", OT_DEFAULT_COAP_SECURE_PORT);
+    }
 
     // CoAP server handling periodic packets.
     otCoapResource periodicResource;

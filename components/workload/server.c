@@ -17,7 +17,7 @@ void periodicRequestHandler(void *aContext, otMessage *aMessage, const otMessage
   otIp6AddressToString(&sender, senderAddressString, OT_IP6_ADDRESS_STRING_SIZE);
 
   char output[PRINT_STATEMENT_SIZE];
-  sprintf(output, "Received %" PRIu32 " bytes from %s", length, (char *) &senderAddressString);
+  sprintf(output, "Received %" PRIu32 " bytes from %s.", length, (char *) &senderAddressString);
   otLogNotePlat(output);
   return;
 }
