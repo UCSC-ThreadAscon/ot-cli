@@ -40,17 +40,17 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
                                             OT_COAP_TYPE_ACKNOWLEDGMENT,
                                             OT_COAP_CODE_VALID);
-  HandleMessageError(aResponse, error);
+  HandleMessageError("coap message init response", aResponse, error);
 
   error = otCoapMessageSetPayloadMarker(aResponse);
-  HandleMessageError(aResponse, error);
+  HandleMessageError("set payload marker", aResponse, error);
 
   char* response = "hello";
   error = otMessageAppend(aResponse, response, 20);
-  HandleMessageError(aResponse, error);
+  HandleMessageError("message append", aResponse, error);
 
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
-  HandleMessageError(aResponse, error);
+  HandleMessageError("send response", aResponse, error);
 
   return;
 }

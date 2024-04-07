@@ -5,10 +5,10 @@
 
 #include <assert.h>
 
-void handleError(otError error)
+void handleError(otError error, const char* desc)
 {
   if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Error: %s", otThreadErrorToString(error));
+    otLogCritPlat("%s error: %s", desc, otThreadErrorToString(error));
   }
   return;
 }
