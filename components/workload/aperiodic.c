@@ -9,7 +9,6 @@
 */
 #include "workload.h"
 
-#include "random.h"
 #include "math.h"
 #include "limits.h"
 
