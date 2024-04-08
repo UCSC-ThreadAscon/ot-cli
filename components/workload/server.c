@@ -46,7 +46,7 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   HandleMessageError("set payload marker", aResponse, error);
 
   char* response = "hello";
-  error = otMessageAppend(aResponse, response, 20);
+  error = otMessageAppend(aResponse, response, 6);
   HandleMessageError("message append", aResponse, error);
 
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
