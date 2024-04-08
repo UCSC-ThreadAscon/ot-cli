@@ -173,7 +173,6 @@ void app_main(void)
         otLogNotePlat("Will wait %" PRIu32 " ms before sending next CoAP request",
                       aperiodicWaitTimeMs());
         vTaskDelay(MS_TO_TICKS(aperiodicWaitTimeMs()));
-        vTaskDelay(MAIN_WAIT_TIME);
       }
       else {
         clientConnect(&socket);
