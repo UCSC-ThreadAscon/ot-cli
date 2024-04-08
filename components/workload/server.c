@@ -43,7 +43,7 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   bool isConfirmable = otCoapMessageGetType(aRequest) == OT_COAP_TYPE_CONFIRMABLE;
   bool isGet = otCoapMessageGetCode(aRequest) == OT_COAP_CODE_GET;
 
-  if (isConfirmable && isGet) {
+  if (isConfirmable || isGet) {
     if (isGet) {
       status = OT_COAP_CODE_CONTENT;
     }

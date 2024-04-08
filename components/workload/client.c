@@ -20,7 +20,11 @@ void handleResponse(void *aContext,
                     const otMessageInfo *aMessageInfo,
                     otError aResult)
 {
-  otLogNotePlat("Recevied a response. Error: %s", otThreadErrorToString(aResult));
+  if (aResult != OT_ERROR_NONE) {
+    otLogCritPlat("Response error: %s", otThreadErrorToString(aResult));
+  } else {
+    otLogNotePlat("Received a response.");
+  }
   return;
 }
 
