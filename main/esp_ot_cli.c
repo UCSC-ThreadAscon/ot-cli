@@ -168,7 +168,7 @@ void app_main(void)
 
     while (true) {
       if (otCoapSecureIsConnected(OT_INSTANCE)) {
-        sendRequest(APERIODIC_URI, &server);
+        sendRequest(APeriodic, &server);
       }
       else {
         clientConnect(&socket);
