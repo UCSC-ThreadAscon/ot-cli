@@ -63,7 +63,7 @@ void sendRequest(type type, otIp6Address *dest) {
 
   char destString[OT_IP6_ADDRESS_STRING_SIZE];
   otIp6AddressToString(dest, destString, OT_IP6_ADDRESS_STRING_SIZE);
-  otLogNotePlat("Send a %s message of %d bytes to %s.", 
+  otLogNotePlat("Sent a %s message of %d bytes to %s.", 
                 type == APeriodic ? "aperiodic" : "periodic", 0, destString);
   return;
 }

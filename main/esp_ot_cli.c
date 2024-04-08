@@ -168,11 +168,12 @@ void app_main(void)
 
     while (true) {
       if (otCoapSecureIsConnected(OT_INSTANCE)) {
-        sendRequest(APeriodic, &server);
+        // sendRequest(APeriodic, &server);
 
-        otLogNotePlat("Will wait %" PRIu32 " before sending next CoAP request",
+        otLogNotePlat("Will wait %" PRIu32 " ms before sending next CoAP request",
                       aperiodicWaitTimeMs());
         vTaskDelay(MS_TO_TICKS(aperiodicWaitTimeMs()));
+        vTaskDelay(MAIN_WAIT_TIME);
       }
       else {
         clientConnect(&socket);
