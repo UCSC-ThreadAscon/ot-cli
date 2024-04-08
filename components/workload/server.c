@@ -71,7 +71,7 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   return;
 }
 
-void periodicRequestHandler(void *aContext,
+void aperiodicRequestHandler(void *aContext,
                             otMessage *aMessage,
                             const otMessageInfo *aMessageInfo)
 {
@@ -87,14 +87,14 @@ void periodicRequestHandler(void *aContext,
   return;
 }
 
-otError createPeriodicResource(otCoapResource *periodic) {
-  periodic->mNext = NULL;
-  periodic->mContext = NULL;
-  periodic->mUriPath = "periodic";
-  periodic->mHandler = periodicRequestHandler;
+otError createAPeriodicResource(otCoapResource *aperiodic) {
+  aperiodic->mNext = NULL;
+  aperiodic->mContext = NULL;
+  aperiodic->mUriPath = "aperiodic";
+  aperiodic->mHandler = aperiodicRequestHandler;
   return OT_ERROR_NONE;
 }
 
-otError createAPeriodicResource() {
+otError createPeriodicResource() {
   return OT_ERROR_NONE;
 }

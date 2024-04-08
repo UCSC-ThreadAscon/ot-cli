@@ -73,10 +73,13 @@ void x509Init();
 uint16_t getPayloadLength(const otMessage *aMessage);
 void getPayload(const otMessage *aMessage, void* buffer);
 
+#define PERIODIC_URI "periodic"
+#define APERIODIC_URI "aperiodic"
+
 /* ---- CoAP Secure Server API ---- */
-otError createPeriodicResource(otCoapResource *periodic);
+otError createAPeriodicResource(otCoapResource *periodic);
 
 /* ---- CoAP Secure Client API ---- */
 void clientConnect(const otSockAddr *socket);
 void clientDisconect();
-void sendPeriodicRequest();
+void sendRequest();

@@ -9,8 +9,6 @@
 */
 #include "workload.h"
 
-#define PERIODIC_URI "periodic"
-
 void handleResponse(void *aContext,
                     otMessage *aMessage,
                     const otMessageInfo *aMessageInfo,
@@ -28,13 +26,13 @@ void handleResponse(void *aContext,
     otIp6AddressToString(&(aMessageInfo->mPeerAddr), senderAddr,
                          OT_IP6_ADDRESS_STRING_SIZE);
 
-    otLogNotePlat("Response from %s of size %" PRIu16 " bytes: %s.",
-                  senderAddr, payloadLen, payload);
+    otLogNotePlat("Response from %s of size %" PRIu16 " bytes.",
+                  senderAddr, payloadLen);
   }
   return;
 }
 
-void sendPeriodicRequest() {
+void sendRequest(const char* type, otIp6Address *dest) {
   otMessage *aRequest = otCoapNewMessage(OT_INSTANCE, NULL);
   if (aRequest == NULL) {
     otLogCritPlat("Failed to create CoAP request.");
@@ -44,11 +42,15 @@ void sendPeriodicRequest() {
   otCoapMessageInit(aRequest, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_POST);
   otCoapMessageGenerateToken(aRequest, OT_COAP_DEFAULT_TOKEN_LENGTH);
 
-  otError error = otCoapMessageAppendUriPathOptions(aRequest, PERIODIC_URI);
+  otError error = otCoapMessageAppendUriPathOptions(aRequest, type);
   HandleMessageError("append uri options", aRequest, error);
 
   error = otCoapSecureSendRequest(OT_INSTANCE, aRequest, handleResponse, NULL);
   HandleMessageError("send request", aRequest, error);
+
+  char destString[OT_IP6_ADDRESS_STRING_SIZE];
+  otIp6AddressToString(dest, destString, OT_IP6_ADDRESS_STRING_SIZE);
+  otLogNotePlat("Send a %s message of %d bytes to %s.", type, 0, destString);
   return;
 }
 
