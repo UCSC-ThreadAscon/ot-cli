@@ -14,9 +14,9 @@
 
 #define LAMBDA 0.75
 
-uint32_t aperiodicWaitTime() {
+double aperiodicWaitTime() {
   uint32_t randomNum = esp_random();
   double normalized = randomNum / UINT32_MAX;
   double waitTime = (-1 * log(1 - normalized)) / LAMBDA;
-  return (uint32_t) floor(waitTime);
+  return waitTime;
 }
