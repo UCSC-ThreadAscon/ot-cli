@@ -12,7 +12,7 @@
 #include "math.h"
 #include "limits.h"
 
-#define LAMBDA 0.75
+#define LAMBDA 0.1
 
 double aperiodicWaitTime() {
   double randomNum = (double) esp_random();
