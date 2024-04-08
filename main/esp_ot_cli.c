@@ -151,7 +151,7 @@ void app_main(void)
 
     // CoAP server handling periodic packets.
     otCoapResource periodicResource;
-    createPeriodicResource(&periodicResource);
+    createAPeriodicResource(&periodicResource);
     otCoapSecureAddResource(OT_INSTANCE, &periodicResource);
     otLogNotePlat("Set up resource URI: '%s'.", periodicResource.mUriPath);
 
@@ -168,7 +168,7 @@ void app_main(void)
 
     while (true) {
       if (otCoapSecureIsConnected(OT_INSTANCE)) {
-        sendPeriodicRequest();
+        sendRequest(APERIODIC_URI, &server);
       }
       else {
         clientConnect(&socket);
