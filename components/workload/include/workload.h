@@ -60,7 +60,6 @@ static inline void EmptyMemory(void* pointer, size_t size) {
 
 void checkConnection(otInstance *aInstance);
 void handleError(otError error, char* desc);
-void x509Init();
 
 #define HandleMessageError(desc, aMessage, error)       \
   if (error != OT_ERROR_NONE) {                         \
@@ -69,10 +68,15 @@ void x509Init();
     return;                                             \
   }                                                     \
 
-/* ---- CoAPS Server API ---- */
+/** ---- CoAP Secure Common API ---- */
+void x509Init();
+uint16_t getPayloadLength(const otMessage *aMessage);
+void getPayload(const otMessage *aMessage, void* buffer);
+
+/* ---- CoAP Secure Server API ---- */
 otError createPeriodicResource(otCoapResource *periodic);
 
-/* ---- COAPS Client API ---- */
+/* ---- CoAP Secure Client API ---- */
 void clientConnect(const otSockAddr *socket);
 void clientDisconect();
 void sendPeriodicRequest();

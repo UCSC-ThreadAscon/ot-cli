@@ -26,10 +26,6 @@ void printCoapRequest(char *output, uint32_t payloadLen, char *ipString) {
   return;
 }
 
-static inline uint16_t getPayloadLength(const otMessage *aMessage) {
-  return otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);
-}
-
 /**
  * This function is a modified version of `HandleRequest()`
  * from the OpenThread CLI CoAP source code:

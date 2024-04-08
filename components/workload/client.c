@@ -9,10 +9,6 @@
 */
 #include "workload.h"
 
-/**
- * TODO: Client finds a device in the network, establishes a CoAP connection,
- * sends a packet, gets a response, then closes the connection.
-*/
 #define PERIODIC_URI "periodic"
 
 void handleResponse(void *aContext,
@@ -21,9 +17,19 @@ void handleResponse(void *aContext,
                     otError aResult)
 {
   if (aResult != OT_ERROR_NONE) {
-    otLogCritPlat("Response error: %s", otThreadErrorToString(aResult));
+    otLogWarnPlat("Response error: %s", otThreadErrorToString(aResult));
   } else {
-    otLogNotePlat("Received a response.");
+    uint16_t payloadLen = getPayloadLength(aMessage);
+    char payload[payloadLen];
+    EmptyMemory(payload, payloadLen);
+    getPayload(aMessage, payload);
+
+    char senderAddr[OT_IP6_ADDRESS_STRING_SIZE];
+    otIp6AddressToString(&(aMessageInfo->mPeerAddr), senderAddr,
+                         OT_IP6_ADDRESS_STRING_SIZE);
+
+    otLogNotePlat("Response from %d of size %" PRIu16 " bytes: %s.",
+                  senderAddr, payload);
   }
   return;
 }
