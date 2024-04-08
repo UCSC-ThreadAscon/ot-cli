@@ -23,7 +23,7 @@ void getPeerAddrString(const otMessageInfo *aMessageInfo, char *ipString) {
 void printCoapRequest(otMessage *aMessage, uint32_t payloadLen, char *ipString) {
   char payload[APERIODIC_PAYLOAD_SIZE];
   getPayload(aMessage, payload);
-  otLogNotePlat("Received %" PRIu32 " bytes from %s: ", payloadLen, ipString);
+  otLogNotePlat("Received %" PRIu32 " bytes from %s: ", payloadLen, ipString, payload);
   return;
 }
 

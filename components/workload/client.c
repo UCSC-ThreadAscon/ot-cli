@@ -45,13 +45,13 @@ void sendRequest(const char* type, otIp6Address *dest) {
   otError error = otCoapMessageAppendUriPathOptions(aRequest, type);
   HandleMessageError("append uri options", aRequest, error);
 
-    error = otCoapMessageSetPayloadMarker(aRequest);
-    HandleMessageError("set payload marker", aRequest, error);
+  error = otCoapMessageSetPayloadMarker(aRequest);
+  HandleMessageError("set payload marker", aRequest, error);
 
-    char* response[APERIODIC_PAYLOAD_SIZE];
-    esp_fill_random(response, APERIODIC_PAYLOAD_SIZE);
-    error = otMessageAppend(aRequest, response, APERIODIC_PAYLOAD_SIZE);
-    HandleMessageError("message append", aRequest, error);
+  char* response[APERIODIC_PAYLOAD_SIZE];
+  esp_fill_random(response, APERIODIC_PAYLOAD_SIZE);
+  error = otMessageAppend(aRequest, response, APERIODIC_PAYLOAD_SIZE);
+  HandleMessageError("message append", aRequest, error);
 
   error = otCoapSecureSendRequest(OT_INSTANCE, aRequest, handleResponse, NULL);
   HandleMessageError("send request", aRequest, error);
