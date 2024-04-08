@@ -166,16 +166,17 @@ void app_main(void)
     socket.mAddress = server;
     socket.mPort = COAP_SECURE_SERVER_PORT;
 
-    clientConnect(&socket);
-
     while (true) {
       if (otCoapSecureIsConnected(OT_INSTANCE)) {
         sendPeriodicRequest();
         break;
       }
       else {
-        vTaskDelay(MAIN_WAIT_TIME);
+        clientConnect(&socket);
+        vTaskDelay(MS_TO_TICKS(3000));
       }
      }
+
+    while (true) { vTaskDelay(MAIN_WAIT_TIME); }
     return;
 }
