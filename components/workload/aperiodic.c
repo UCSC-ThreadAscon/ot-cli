@@ -47,6 +47,5 @@ double aperiodicWaitTimeSeconds() {
 uint32_t aperiodicWaitTimeMs() {
   double waitTimeMs = aperiodicWaitTimeSeconds() * 1000;
   double waitTimeMsFloor = floor(waitTimeMs);
-  otLogNotePlat("As a float the wait time is: %F", waitTimeMsFloor);
   return (uint32_t) waitTimeMsFloor;
 }
