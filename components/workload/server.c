@@ -30,6 +30,11 @@ static inline uint16_t getPayloadLength(const otMessage *aMessage) {
   return otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);
 }
 
+/**
+ * This function is a modified version of `HandleRequest()`
+ * from the OpenThread CLI CoAP source code:
+ * https://github.com/UCSC-ThreadAscon/openthread/blob/main/src/cli/cli_coap_secure.cpp#L814
+*/
 void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
 {
   otMessage *aResponse = NULL;
@@ -65,6 +70,10 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
 
     error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
     HandleMessageError("send response", aResponse, error);
+
+    otLogNotePlat("Successfully sent a CoAP secure response.");
+  } else {
+    otLogNotePlat("No need to sent CoAP secure response.");
   }
 
   return;
