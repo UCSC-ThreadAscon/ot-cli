@@ -172,8 +172,9 @@ void app_main(void)
       }
       else {
         clientConnect(&socket);
-        vTaskDelay(MS_TO_TICKS(3000));
       }
+
+      vTaskDelay(MS_TO_TICKS(7200));
      }
     return;
 }
