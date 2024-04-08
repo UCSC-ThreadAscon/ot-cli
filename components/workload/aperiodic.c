@@ -14,10 +14,20 @@
 
 #define LAMBDA 0.1
 
-double aperiodicWaitTime() {
+double generateToLn() {
   double randomNum = (double) esp_random();
   double normalized = randomNum / UINT32_MAX;
   double toLn = 1 - normalized;
+  return toLn;
+}
+
+double aperiodicWaitTime() {
+  double toLn = 0;
+  do {
+    toLn = randomToLn();
+  }
+  while (toLn == 0); // prevents the case of ln(0)
+
   double lnResult = log(toLn);
   double numerator = -1 * lnResult;
   double result = numerator / LAMBDA;
