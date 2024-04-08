@@ -20,6 +20,6 @@ double aperiodicWaitTime() {
   double toLn = 1 - normalized;
   double lnResult = log(toLn);
   double numerator = -1 * lnResult;
-  // double waitTime = (-1 * log(1 - normalized)) / LAMBDA;
-  return numerator;
+  double result = numerator / LAMBDA;
+  return result;
 }
