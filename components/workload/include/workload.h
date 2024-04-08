@@ -63,8 +63,10 @@ void handleError(otError error, char* desc);
 void x509Init();
 
 #define HandleMessageError(desc, aMessage, error)       \
-  otMessageFree(aMessage);                              \
-  handleError(error, desc);                             \
+  if (error != OT_ERROR_NONE) {                         \
+    otMessageFree(aMessage);                            \
+    handleError(error, desc);                           \
+  }                                                     \
 
 /* ---- CoAPS Server API ---- */
 otError createPeriodicResource(otCoapResource *periodic);
