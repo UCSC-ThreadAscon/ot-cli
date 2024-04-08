@@ -17,6 +17,7 @@
 double aperiodicWaitTime() {
   double randomNum = (double) esp_random();
   double normalized = randomNum / UINT32_MAX;
+  double toLn = 1 - normalized;
   // double waitTime = (-1 * log(1 - normalized)) / LAMBDA;
-  return normalized;
+  return toLn;
 }
