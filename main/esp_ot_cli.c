@@ -169,14 +169,11 @@ void app_main(void)
     while (true) {
       if (otCoapSecureIsConnected(OT_INSTANCE)) {
         sendPeriodicRequest();
-        break;
       }
       else {
         clientConnect(&socket);
         vTaskDelay(MS_TO_TICKS(3000));
       }
      }
-
-    while (true) { vTaskDelay(MAIN_WAIT_TIME); }
     return;
 }
