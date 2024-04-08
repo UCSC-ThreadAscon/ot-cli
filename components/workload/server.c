@@ -23,7 +23,8 @@ void getPeerAddrString(const otMessageInfo *aMessageInfo, char *ipString) {
 void printCoapRequest(otMessage *aMessage, uint32_t payloadLen, char *ipString) {
   char payload[APERIODIC_PAYLOAD_SIZE];
   getPayload(aMessage, payload);
-  otLogNotePlat("Received %" PRIu32 " bytes from %s: ", payloadLen, ipString, payload);
+  otLogNotePlat("Received %" PRIu32 " bytes from %s: %s",
+                payloadLen, ipString, payload);
   return;
 }
 
@@ -65,7 +66,7 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   return;
 }
 
-void aperiodicRequestHandler(void *aContext,
+void requestHandler(void *aContext,
                             otMessage *aMessage,
                             const otMessageInfo *aMessageInfo)
 {
@@ -84,7 +85,7 @@ otError createAPeriodicResource(otCoapResource *aperiodic) {
   aperiodic->mNext = NULL;
   aperiodic->mContext = NULL;
   aperiodic->mUriPath = "aperiodic";
-  aperiodic->mHandler = aperiodicRequestHandler;
+  aperiodic->mHandler = requestHandler;
   return OT_ERROR_NONE;
 }
 
