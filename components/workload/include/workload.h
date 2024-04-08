@@ -66,6 +66,7 @@ void x509Init();
   if (error != OT_ERROR_NONE) {                         \
     otMessageFree(aMessage);                            \
     handleError(error, desc);                           \
+    return;                                             \
   }                                                     \
 
 /* ---- CoAPS Server API ---- */
