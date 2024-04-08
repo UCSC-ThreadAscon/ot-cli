@@ -32,25 +32,40 @@ static inline uint16_t getPayloadLength(const otMessage *aMessage) {
 
 void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
 {
-  otMessage *aResponse = otCoapNewMessage(OT_INSTANCE, NULL);
-  if (aResponse == NULL) {
-    otLogCritPlat("Failed to initialize a new message for CoAP response.");
+  otMessage *aResponse = NULL;
+  otCoapCode status = OT_COAP_CODE_EMPTY;
+
+  bool isConfirmable = otCoapMessageGetType(aRequest) == OT_COAP_TYPE_CONFIRMABLE;
+  bool isGet = otCoapMessageGetCode(aRequest) == OT_COAP_CODE_GET;
+
+  if (isConfirmable && isGet) {
+    if (isGet) {
+      status = OT_COAP_CODE_CONTENT;
+    }
+    else {
+      status = OT_COAP_CODE_VALID;
+    }
+
+    aResponse = otCoapNewMessage(OT_INSTANCE, NULL);
+    if (aResponse == NULL) {
+      otLogCritPlat("Failed to initialize a new message for CoAP response.");
+    }
+
+    otError error = otCoapMessageInitResponse(aResponse, aRequest,
+                                              OT_COAP_TYPE_ACKNOWLEDGMENT,
+                                              status);
+    HandleMessageError("coap message init response", aResponse, error);
+
+    error = otCoapMessageSetPayloadMarker(aResponse);
+    HandleMessageError("set payload marker", aResponse, error);
+
+    char* response = "hello";
+    error = otMessageAppend(aResponse, response, 6);
+    HandleMessageError("message append", aResponse, error);
+
+    error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
+    HandleMessageError("send response", aResponse, error);
   }
-
-  otError error = otCoapMessageInitResponse(aResponse, aRequest,
-                                            OT_COAP_TYPE_CONFIRMABLE,
-                                            OT_COAP_CODE_CREATED);
-  HandleMessageError("coap message init response", aResponse, error);
-
-  error = otCoapMessageSetPayloadMarker(aResponse);
-  HandleMessageError("set payload marker", aResponse, error);
-
-  char* response = "hello";
-  error = otMessageAppend(aResponse, response, 6);
-  HandleMessageError("message append", aResponse, error);
-
-  error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
-  HandleMessageError("send response", aResponse, error);
 
   return;
 }
