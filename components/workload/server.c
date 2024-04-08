@@ -38,8 +38,8 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   }
 
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
-                                            OT_COAP_TYPE_ACKNOWLEDGMENT,
-                                            OT_COAP_CODE_VALID);
+                                            OT_COAP_TYPE_CONFIRMABLE,
+                                            OT_COAP_CODE_CREATED);
   HandleMessageError("coap message init response", aResponse, error);
 
   error = otCoapMessageSetPayloadMarker(aResponse);
