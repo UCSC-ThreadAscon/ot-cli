@@ -76,6 +76,8 @@ void getPayload(const otMessage *aMessage, void* buffer);
 #define PERIODIC_URI "periodic"
 #define APERIODIC_URI "aperiodic"
 
+#define APERIODIC_PAYLOAD_SIZE 5
+
 /* ---- CoAP Secure Server API ---- */
 otError createAPeriodicResource(otCoapResource *periodic);
 

@@ -20,9 +20,10 @@ void getPeerAddrString(const otMessageInfo *aMessageInfo, char *ipString) {
   return;
 }
 
-void printCoapRequest(char *output, uint32_t payloadLen, char *ipString) {
-  sprintf(output, "Received %" PRIu32 " bytes from %s.", payloadLen, ipString);
-  otLogNotePlat(output);
+void printCoapRequest(otMessage *aMessage, uint32_t payloadLen, char *ipString) {
+  char payload[APERIODIC_PAYLOAD_SIZE];
+  getPayload(aMessage, payload);
+  otLogNotePlat("Received %" PRIu32 " bytes from %s: ", payloadLen, ipString);
   return;
 }
 
@@ -57,13 +58,6 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
                                               status);
     HandleMessageError("coap message init response", aResponse, error);
 
-    error = otCoapMessageSetPayloadMarker(aResponse);
-    HandleMessageError("set payload marker", aResponse, error);
-
-    char* response = "hello";
-    error = otMessageAppend(aResponse, response, 6);
-    HandleMessageError("message append", aResponse, error);
-
     error = otCoapSecureSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
     HandleMessageError("send response", aResponse, error);
   }
@@ -78,10 +72,9 @@ void aperiodicRequestHandler(void *aContext,
   uint32_t length = getPayloadLength(aMessage);
 
   char senderAddress[OT_IP6_ADDRESS_STRING_SIZE];
-  char output[PRINT_STATEMENT_SIZE];
 
   getPeerAddrString(aMessageInfo, senderAddress);
-  printCoapRequest(output, length, senderAddress);
+  printCoapRequest(aMessage, length, senderAddress);
 
   sendCoapResponse(aMessage, aMessageInfo);
   return;
