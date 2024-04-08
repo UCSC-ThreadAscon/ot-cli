@@ -168,7 +168,7 @@ void app_main(void)
 
     while (true) {
       if (otCoapSecureIsConnected(OT_INSTANCE)) {
-        // sendRequest(APeriodic, &server);
+        sendRequest(APeriodic, &server);
 
         otLogNotePlat("Will wait %" PRIu32 " ms before sending next CoAP request",
                       aperiodicWaitTimeMs());
