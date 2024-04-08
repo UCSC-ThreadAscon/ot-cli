@@ -43,3 +43,9 @@ double aperiodicWaitTimeSeconds() {
   double result = numerator / LAMBDA;
   return result;
 }
+
+uint32_t aperiodicWaitTimeMs() {
+  double waitTimeMs = aperiodicWaitTimeSeconds() * 1000;
+  double waitTimeMsFloor = floor(waitTimeMs);
+  return (uint32_t) waitTimeMsFloor;
+}

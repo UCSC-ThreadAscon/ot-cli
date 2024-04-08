@@ -174,7 +174,7 @@ void app_main(void)
         clientConnect(&socket);
       }
 
-      otLogNotePlat("The aperiodic wait time is %F.", aperiodicWaitTimeSeconds());
+      otLogNotePlat("The aperiodic wait time is %" PRIu32 " ms.", aperiodicWaitTimeMs());
       vTaskDelay(MS_TO_TICKS(3000));
      }
     return;
