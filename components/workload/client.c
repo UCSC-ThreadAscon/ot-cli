@@ -28,8 +28,8 @@ void handleResponse(void *aContext,
     otIp6AddressToString(&(aMessageInfo->mPeerAddr), senderAddr,
                          OT_IP6_ADDRESS_STRING_SIZE);
 
-    otLogNotePlat("Response from %d of size %" PRIu16 " bytes: %s.",
-                  senderAddr, payload);
+    otLogNotePlat("Response from %s of size %" PRIu16 " bytes: %s.",
+                  senderAddr, payloadLen, payload);
   }
   return;
 }
