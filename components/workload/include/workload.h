@@ -68,15 +68,20 @@ void handleError(otError error, char* desc);
     return;                                             \
   }                                                     \
 
+#define PERIODIC_URI "periodic"
+#define APERIODIC_URI "aperiodic"
+#define APERIODIC_PAYLOAD_SIZE 5
+#define PERIODIC_PAYLOAD_SIZE 80
+
+typedef enum type {
+  APeriodic = 0,
+  Periodic = 1
+} type;
+
 /** ---- CoAP Secure Common API ---- */
 void x509Init();
 uint16_t getPayloadLength(const otMessage *aMessage);
 void getPayload(const otMessage *aMessage, void* buffer);
-
-#define PERIODIC_URI "periodic"
-#define APERIODIC_URI "aperiodic"
-
-#define APERIODIC_PAYLOAD_SIZE 5
 
 /* ---- CoAP Secure Server API ---- */
 otError createAPeriodicResource(otCoapResource *periodic);
@@ -84,4 +89,4 @@ otError createAPeriodicResource(otCoapResource *periodic);
 /* ---- CoAP Secure Client API ---- */
 void clientConnect(const otSockAddr *socket);
 void clientDisconect();
-void sendRequest();
+void sendRequest(type type, otIp6Address *dest);

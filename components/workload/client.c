@@ -32,7 +32,7 @@ void handleResponse(void *aContext,
   return;
 }
 
-void sendRequest(const char* type, otIp6Address *dest) {
+void sendRequest(type type, otIp6Address *dest) {
   otMessage *aRequest = otCoapNewMessage(OT_INSTANCE, NULL);
   if (aRequest == NULL) {
     otLogCritPlat("Failed to create CoAP request.");
@@ -42,15 +42,20 @@ void sendRequest(const char* type, otIp6Address *dest) {
   otCoapMessageInit(aRequest, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_POST);
   otCoapMessageGenerateToken(aRequest, OT_COAP_DEFAULT_TOKEN_LENGTH);
 
-  otError error = otCoapMessageAppendUriPathOptions(aRequest, type);
+  otError error = otCoapMessageAppendUriPathOptions(aRequest,
+                    type == APeriodic ? APERIODIC_URI : PERIODIC_URI);
   HandleMessageError("append uri options", aRequest, error);
 
   error = otCoapMessageSetPayloadMarker(aRequest);
   HandleMessageError("set payload marker", aRequest, error);
 
-  char* response[APERIODIC_PAYLOAD_SIZE];
-  esp_fill_random(response, APERIODIC_PAYLOAD_SIZE);
-  error = otMessageAppend(aRequest, response, APERIODIC_PAYLOAD_SIZE);
+  uint16_t responseSize =
+    type == APeriodic ? APERIODIC_PAYLOAD_SIZE : PERIODIC_PAYLOAD_SIZE;
+
+  char* response[responseSize];
+  esp_fill_random(response, responseSize);
+
+  error = otMessageAppend(aRequest, response, responseSize);
   HandleMessageError("message append", aRequest, error);
 
   error = otCoapSecureSendRequest(OT_INSTANCE, aRequest, handleResponse, NULL);
@@ -58,7 +63,8 @@ void sendRequest(const char* type, otIp6Address *dest) {
 
   char destString[OT_IP6_ADDRESS_STRING_SIZE];
   otIp6AddressToString(dest, destString, OT_IP6_ADDRESS_STRING_SIZE);
-  otLogNotePlat("Send a %s message of %d bytes to %s.", type, 0, destString);
+  otLogNotePlat("Send a %s message of %d bytes to %s.", 
+                type == APeriodic ? "aperiodic" : "periodic", 0, destString);
   return;
 }
 
