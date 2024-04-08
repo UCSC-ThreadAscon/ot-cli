@@ -68,7 +68,7 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
     error = otMessageAppend(aResponse, response, 6);
     HandleMessageError("message append", aResponse, error);
 
-    error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
+    error = otCoapSecureSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
     HandleMessageError("send response", aResponse, error);
 
     otLogNotePlat("Successfully sent a CoAP secure response.");
