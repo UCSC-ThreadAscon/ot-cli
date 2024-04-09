@@ -12,6 +12,9 @@
 #include "openthread/tasklet.h"
 #include "openthread/coap_secure.h"
 
+#include <stdint.h>
+#include <inttypes.h>
+
 #include "x509_cert_key.h"
 
 /**

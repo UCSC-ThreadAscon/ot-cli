@@ -12,7 +12,7 @@ void periodicWorker(void* context) {
       sendRequest(Periodic, server);
 
         otLogNotePlat(
-          "Will wait %" PRIu32 " ms before sending next the periodic CoAP request.",
+          "Will wait %d ms before sending next the periodic CoAP request.",
           PERIODIC_WAIT_TIME_MS
         );
 
