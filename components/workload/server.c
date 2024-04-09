@@ -89,6 +89,10 @@ otError createAPeriodicResource(otCoapResource *aperiodic) {
   return OT_ERROR_NONE;
 }
 
-otError createPeriodicResource() {
+otError createPeriodicResource(otCoapResource *periodic) {
+  periodic->mNext = NULL;
+  periodic->mContext = NULL;
+  periodic->mUriPath = "periodic";
+  periodic->mHandler = requestHandler;
   return OT_ERROR_NONE;
 }

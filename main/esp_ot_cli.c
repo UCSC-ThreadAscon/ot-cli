@@ -149,9 +149,15 @@ void app_main(void)
                     COAP_SECURE_SERVER_PORT);
     }
 
-    // CoAP server handling periodic packets.
+    // CoAP server handling aperiodic packets.
+    otCoapResource aPeriodicResource;
+    createAPeriodicResource(&aPeriodicResource);
+    otCoapSecureAddResource(OT_INSTANCE, &aPeriodicResource);
+    otLogNotePlat("Set up resource URI: '%s'.", aPeriodicResource.mUriPath);
+
+    // CoAP server for handling periodic packets.
     otCoapResource periodicResource;
-    createAPeriodicResource(&periodicResource);
+    createPeriodicResource(&periodicResource);
     otCoapSecureAddResource(OT_INSTANCE, &periodicResource);
     otLogNotePlat("Set up resource URI: '%s'.", periodicResource.mUriPath);
 
