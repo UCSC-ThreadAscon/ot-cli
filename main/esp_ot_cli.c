@@ -187,7 +187,18 @@ void app_main(void)
         );
 
         TickType_t lastWakeupTime = xTaskGetTickCount();
-        vTaskDelayUntil(&lastWakeupTime, MS_TO_TICKS(nextWaitTime));
+  
+        /**
+         * If quotient "nextWaitTime" < "portTICK_PERIOD_MS", then
+         * MS_TO_TICKS(nextWaitTime) == 0, causing `vTaskDelayUntil()`
+         * to crash. When t his happens, set the delay to be exactly
+         * `portTICK_PERIOD_MS`.
+        */
+       TickType_t nextWaitTimeTicks =
+          MS_TO_TICKS(nextWaitTime) == 0 ? portTICK_PERIOD_MS :
+            MS_TO_TICKS(nextWaitTime);
+
+        vTaskDelayUntil(&lastWakeupTime, nextWaitTimeTicks);
       }
       else {
         clientConnect(&socket);
