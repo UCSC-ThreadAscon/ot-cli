@@ -174,7 +174,7 @@ void app_main(void)
 
     // Sending of periodic packets will be handled by a worker thread.
     xTaskCreate(periodicWorker, "periodic_client", 10240,
-                xTaskGetCurrentTaskHandle(), 5, NULL);
+                (void *) &socket, 5, NULL);
 
     while (true) {
       if (otCoapSecureIsConnected(OT_INSTANCE))
@@ -199,6 +199,7 @@ void app_main(void)
           MS_TO_TICKS(nextWaitTime) == 0 ? portTICK_PERIOD_MS :
             MS_TO_TICKS(nextWaitTime);
 
+        otCoapSecureDisconnect(OT_INSTANCE);
         vTaskDelayUntil(&lastWakeupTime, nextWaitTimeTicks);
       }
       else {
