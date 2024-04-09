@@ -170,9 +170,12 @@ void app_main(void)
       if (otCoapSecureIsConnected(OT_INSTANCE)) {
         sendRequest(APeriodic, &server);
 
+        uint32_t nextWaitTime = aperiodicWaitTimeMs();
         otLogNotePlat("Will wait %" PRIu32 " ms before sending next CoAP request",
-                      aperiodicWaitTimeMs());
-        vTaskDelay(MS_TO_TICKS(aperiodicWaitTimeMs()));
+                      nextWaitTime);
+
+        TickType_t lastWakeupTime = xTaskGetTickCount();
+        vTaskDelayUntil(&lastWakeupTime, MS_TO_TICKS(nextWaitTime));
       }
       else {
         clientConnect(&socket);
