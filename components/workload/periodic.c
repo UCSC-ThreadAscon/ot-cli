@@ -13,11 +13,11 @@ void periodicWorker(void* context) {
 
         otLogNotePlat(
           "Will wait %" PRIu32 " ms before sending next the periodic CoAP request.",
-          PERIODIC_WAIT_TIME
+          PERIODIC_WAIT_TIME_MS
         );
 
         TickType_t lastWakeupTime = xTaskGetTickCount();
-        vTaskDelayUntil(&lastWakeupTime, PERIODIC_WAIT_TIME);
+        vTaskDelayUntil(&lastWakeupTime, MS_TO_TICKS(PERIODIC_WAIT_TIME_MS));
     } else {
       vTaskDelay(MAIN_WAIT_TIME);
     }
