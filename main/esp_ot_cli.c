@@ -177,7 +177,8 @@ void app_main(void)
                 xTaskGetCurrentTaskHandle(), 5, NULL);
 
     while (true) {
-      if (otCoapSecureIsConnected(OT_INSTANCE)) {
+      if (otCoapSecureIsConnected(OT_INSTANCE))
+      {
         sendRequest(APeriodic, &server);
 
         uint32_t nextWaitTime = aperiodicWaitTimeMs();
@@ -199,6 +200,10 @@ void app_main(void)
             MS_TO_TICKS(nextWaitTime);
 
         vTaskDelayUntil(&lastWakeupTime, nextWaitTimeTicks);
+
+        if (otCoapSecureIsConnectionActive(OT_INSTANCE)) {
+          otCoapSecureDisconnect(OT_INSTANCE);
+        }
       }
       else {
         clientConnect(&socket);
