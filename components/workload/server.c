@@ -20,8 +20,15 @@ void getPeerAddrString(const otMessageInfo *aMessageInfo, char *ipString) {
   return;
 }
 
-void printCoapRequest(otMessage *aMessage, uint32_t payloadLen, char *ipString) {
-  char payload[APERIODIC_PAYLOAD_SIZE];
+void printCoapRequest(otMessage *aMessage,
+                      uint32_t payloadLen,
+                      char *ipString,
+                      type type) 
+{
+  uint16_t payloadSize =
+    type == APeriodic ? APERIODIC_PAYLOAD_SIZE : PERIODIC_PAYLOAD_SIZE;
+
+  char payload[payloadSize];
   getPayload(aMessage, payload);
   otLogNotePlat("Received %" PRIu32 " bytes from %s: %s",
                 payloadLen, ipString, payload);
@@ -67,8 +74,9 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
 }
 
 void requestHandler(void *aContext,
-                            otMessage *aMessage,
-                            const otMessageInfo *aMessageInfo)
+                    otMessage *aMessage,
+                    const otMessageInfo *aMessageInfo,
+                    type type)
 {
   uint32_t length = getPayloadLength(aMessage);
 
@@ -76,9 +84,25 @@ void requestHandler(void *aContext,
   EmptyMemory(senderAddress, OT_IP6_ADDRESS_STRING_SIZE);
 
   getPeerAddrString(aMessageInfo, senderAddress);
-  printCoapRequest(aMessage, length, senderAddress);
+  printCoapRequest(aMessage, length, senderAddress, type);
 
   sendCoapResponse(aMessage, aMessageInfo);
+  return;
+}
+
+void periodicRequestHandler(void *aContext,
+                            otMessage *aMessage,
+                            const otMessageInfo *aMessageInfo)
+{
+  requestHandler(aContext, aMessage, aMessageInfo, Periodic);
+  return;
+}
+
+void aPeriodicRequestHandler(void *aContext,
+                            otMessage *aMessage,
+                            const otMessageInfo *aMessageInfo)
+{
+  requestHandler(aContext, aMessage, aMessageInfo, APeriodic);
   return;
 }
 
@@ -86,7 +110,7 @@ otError createAPeriodicResource(otCoapResource *aperiodic) {
   aperiodic->mNext = NULL;
   aperiodic->mContext = NULL;
   aperiodic->mUriPath = "aperiodic";
-  aperiodic->mHandler = requestHandler;
+  aperiodic->mHandler = aPeriodicRequestHandler;
   return OT_ERROR_NONE;
 }
 
@@ -94,6 +118,6 @@ otError createPeriodicResource(otCoapResource *periodic) {
   periodic->mNext = NULL;
   periodic->mContext = NULL;
   periodic->mUriPath = "periodic";
-  periodic->mHandler = requestHandler;
+  periodic->mHandler = periodicRequestHandler;
   return OT_ERROR_NONE;
 }
