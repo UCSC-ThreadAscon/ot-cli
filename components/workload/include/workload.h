@@ -71,7 +71,7 @@ void handleError(otError error, char* desc);
 #define PERIODIC_URI "periodic"
 #define APERIODIC_URI "aperiodic"
 #define APERIODIC_PAYLOAD_SIZE 5
-#define PERIODIC_PAYLOAD_SIZE 80
+#define PERIODIC_PAYLOAD_SIZE 5
 #define PERIODIC_WAIT_TIME MS_TO_TICKS(7200) // 7.2 seconds
 
 typedef enum type {
