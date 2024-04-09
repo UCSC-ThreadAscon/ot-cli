@@ -30,8 +30,8 @@ void printCoapRequest(otMessage *aMessage,
 
   char payload[payloadSize];
   getPayload(aMessage, payload);
-  otLogNotePlat("Received %" PRIu32 " bytes from %s: %s",
-                payloadLen, ipString, payload);
+  otLogNotePlat("Received %" PRIu32 " bytes from %s.",
+                payloadLen, ipString);
   return;
 }
 
