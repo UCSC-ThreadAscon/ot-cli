@@ -73,6 +73,7 @@ void requestHandler(void *aContext,
   uint32_t length = getPayloadLength(aMessage);
 
   char senderAddress[OT_IP6_ADDRESS_STRING_SIZE];
+  EmptyMemory(senderAddress, OT_IP6_ADDRESS_STRING_SIZE);
 
   getPeerAddrString(aMessageInfo, senderAddress);
   printCoapRequest(aMessage, length, senderAddress);

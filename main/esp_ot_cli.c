@@ -173,7 +173,7 @@ void app_main(void)
     socket.mPort = COAP_SECURE_SERVER_PORT;
 
     // Sending of periodic packets will be handled by a worker thread.
-    xTaskCreate(periodicWorker, "periodic_client", 5120,
+    xTaskCreate(periodicWorker, "periodic_client", 10240,
                 xTaskGetCurrentTaskHandle(), 5, NULL);
 
     while (true) {
