@@ -93,3 +93,4 @@ uint32_t aperiodicWaitTimeMs();
 void clientConnect(const otSockAddr *socket);
 void clientDisconect();
 void sendRequest(type type, otIp6Address *dest);
+void periodicWorker(void* context);
