@@ -177,12 +177,13 @@ void app_main(void)
         sendRequest(APeriodic, &server);
 
         uint32_t nextWaitTime = aperiodicWaitTimeMs();
-        otLogNotePlat("Will wait %" PRIu32 " ms before sending next CoAP request.",
-                      nextWaitTime);
+        otLogNotePlat(
+          "Will wait %" PRIu32 " ms before sending next aperiodic CoAP request.",
+          nextWaitTime
+        );
 
         TickType_t lastWakeupTime = xTaskGetTickCount();
         vTaskDelayUntil(&lastWakeupTime, MS_TO_TICKS(nextWaitTime));
-        vTaskDelay(MAIN_WAIT_TIME);
       }
       else {
         clientConnect(&socket);
