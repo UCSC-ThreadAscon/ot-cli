@@ -30,6 +30,7 @@ void handleResponse(void *aContext,
                   senderAddr, payloadLen);
   }
 
+  otLogNotePlat("End CoAP DTLS Connection.");
   clientDisconnect();
   return;
 }
