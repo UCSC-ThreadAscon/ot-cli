@@ -45,7 +45,7 @@ double aperiodicWaitTimeSeconds() {
 }
 
 uint32_t aperiodicWaitTimeMs() {
-  double waitTimeSeconds = aperiodicWaitTimeSeconds() + 30;
+  double waitTimeSeconds = aperiodicWaitTimeSeconds();
   double waitTimeMs = waitTimeSeconds * 1000;
   double waitTimeMsFloor = floor(waitTimeMs);
   return (uint32_t) waitTimeMsFloor;

@@ -137,7 +137,7 @@ void app_main(void)
     checkConnection(OT_INSTANCE);
     x509Init();
 
-    otError error = otCoapStart(OT_INSTANCE, COAP_SERVER_PORT);
+    otError error = otCoapStart(OT_INSTANCE, COAP_SOCK_PORT);
 
     if (error != OT_ERROR_NONE) {
       otLogCritPlat("Failed to start COAP server.");
@@ -179,7 +179,7 @@ void app_main(void)
      * Sending of aperiodic packets is handled below.
     */
     while (true) {
-      sendRequest(APeriodic, &server);
+      sendRequest(APeriodic, &socket);
 
       uint32_t nextWaitTime = aperiodicWaitTimeMs();
       otLogNotePlat(
