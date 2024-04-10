@@ -15,7 +15,6 @@ void periodicWorker(void* context) {
       otLogNotePlat("Successfully sent packet.");
     } else {
       otLogNotePlat("Can't connect to server.");
-      otCoapSecureDisconnect(OT_INSTANCE);
     }
 
     otLogNotePlat(
