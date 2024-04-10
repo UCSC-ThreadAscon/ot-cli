@@ -50,7 +50,6 @@
 #endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
 
 #define TAG "ot_cli"
-#define COAP_SECURE_SERVER_PORT CONFIG_COAP_SECURE_SERVER_PORT
 
 static esp_netif_t *init_openthread_netif(const esp_openthread_platform_config_t *config)
 {
@@ -138,27 +137,24 @@ void app_main(void)
     checkConnection(OT_INSTANCE);
     x509Init();
 
-    otError error =
-      otCoapSecureStartWithMaxConnAttempts(OT_INSTANCE, COAP_SECURE_SERVER_PORT,
-                                           0, NULL, NULL);
+    otError error = otCoapStart(OT_INSTANCE, COAP_SERVER_PORT);
 
     if (error != OT_ERROR_NONE) {
-      otLogCritPlat("Failed to start COAPS server.");
+      otLogCritPlat("Failed to start COAP server.");
     } else {
-      otLogNotePlat("Started CoAPS server at port %d.",
-                    COAP_SECURE_SERVER_PORT);
+      otLogNotePlat("Started CoAP server at port %d.", COAP_SERVER_PORT);
     }
 
     // CoAP server handling aperiodic packets.
     otCoapResource aPeriodicResource;
     createAPeriodicResource(&aPeriodicResource);
-    otCoapSecureAddResource(OT_INSTANCE, &aPeriodicResource);
+    otCoapAddResource(OT_INSTANCE, &aPeriodicResource);
     otLogNotePlat("Set up resource URI: '%s'.", aPeriodicResource.mUriPath);
 
     // CoAP server for handling periodic packets.
     otCoapResource periodicResource;
     createPeriodicResource(&periodicResource);
-    otCoapSecureAddResource(OT_INSTANCE, &periodicResource);
+    otCoapAddResource(OT_INSTANCE, &periodicResource);
     otLogNotePlat("Set up resource URI: '%s'.", periodicResource.mUriPath);
 
     /** ---- CoAP Client Code ---- */
@@ -170,42 +166,40 @@ void app_main(void)
 
     otIp6AddressFromString(CONFIG_SERVER_IP_ADDRESS, &server);
     socket.mAddress = server;
-    socket.mPort = COAP_SECURE_SERVER_PORT;
+    socket.mPort = COAP_SERVER_PORT;
 
-    // Sending of periodic packets will be handled by a worker thread.
+    /**
+     * Sending of periodic packets will be handled by separate
+     * worker thread.
+    */
     xTaskCreate(periodicWorker, "periodic_client", 10240,
                 (void *) &socket, 5, NULL);
 
-    while (true) { vTaskDelay(MAIN_WAIT_TIME); }
-    // while (true) {
-    //   if (otCoapSecureIsConnected(OT_INSTANCE))
-    //   {
-    //     sendRequest(APeriodic, &server);
+    /**
+     * Sending of aperiodic packets is handled below.
+    */
+    while (true) {
+      sendRequest(APeriodic, &server);
 
-    //     uint32_t nextWaitTime = aperiodicWaitTimeMs();
-    //     otLogNotePlat(
-    //       "Will wait %" PRIu32 " ms before sending next aperiodic CoAP request.",
-    //       nextWaitTime
-    //     );
+      uint32_t nextWaitTime = aperiodicWaitTimeMs();
+      otLogNotePlat(
+        "Will wait %" PRIu32 " ms before sending next aperiodic CoAP request.",
+        nextWaitTime
+      );
 
-    //     TickType_t lastWakeupTime = xTaskGetTickCount();
-  
-    //     /**
-    //      * If quotient "nextWaitTime" < "portTICK_PERIOD_MS", then
-    //      * MS_TO_TICKS(nextWaitTime) == 0, causing `vTaskDelayUntil()`
-    //      * to crash. When this happens, set the delay to be exactly
-    //      * `portTICK_PERIOD_MS`.
-    //     */
-    //    TickType_t nextWaitTimeTicks =
-    //       MS_TO_TICKS(nextWaitTime) == 0 ? portTICK_PERIOD_MS :
-    //         MS_TO_TICKS(nextWaitTime);
+      TickType_t lastWakeupTime = xTaskGetTickCount();
 
-    //     vTaskDelayUntil(&lastWakeupTime, nextWaitTimeTicks);
-    //   }
-    //   else {
-    //     clientConnect(&socket);
-    //     vTaskDelay(MAIN_WAIT_TIME);
-    //   }
-    //  }
+      /**
+       * If quotient "nextWaitTime" < "portTICK_PERIOD_MS", then
+       * MS_TO_TICKS(nextWaitTime) == 0, causing `vTaskDelayUntil()`
+       * to crash. When this happens, set the delay to be exactly
+       * `portTICK_PERIOD_MS`.
+      */
+      TickType_t nextWaitTimeTicks =
+        MS_TO_TICKS(nextWaitTime) == 0 ? portTICK_PERIOD_MS :
+          MS_TO_TICKS(nextWaitTime);
+
+      vTaskDelayUntil(&lastWakeupTime, nextWaitTimeTicks);
+     }
     return;
 }

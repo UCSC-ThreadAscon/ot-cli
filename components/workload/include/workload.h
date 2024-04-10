@@ -77,6 +77,9 @@ void handleError(otError error, char* desc);
 #define PERIODIC_PAYLOAD_SIZE 80
 #define PERIODIC_WAIT_TIME_MS CONFIG_PERIODIC_WAIT_TIME
 
+#define COAP_SERVER_PORT CONFIG_COAP_SERVER_PORT
+#define COAP_SOCK_PORT OT_DEFAULT_COAP_PORT
+
 typedef enum type {
   APeriodic = 0,
   Periodic = 1
@@ -95,5 +98,5 @@ uint32_t aperiodicWaitTimeMs();
 /* ---- CoAP Secure Client API ---- */
 otError clientConnect(const otSockAddr *socket);
 void clientDisconnect();
-void sendRequest(type type, otIp6Address *dest);
+void sendRequest(type type, otSockAddr *socket);
 void periodicWorker(void* context);

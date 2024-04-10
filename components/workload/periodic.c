@@ -8,14 +8,8 @@ void periodicWorker(void* context) {
   otSockAddr *socket = (otSockAddr *) context;
 
   while (true) {
-    clientConnect(socket);
-    if (otCoapSecureIsConnectionActive(OT_INSTANCE))
-    {
-      sendRequest(Periodic, &(socket->mAddress));
-      otLogNotePlat("Successfully sent packet.");
-    } else {
-      otLogNotePlat("Can't connect to server.");
-    }
+    sendRequest(Periodic, socket);
+    otLogNotePlat("Successfully sent CoAP request.");
 
     otLogNotePlat(
       "Will wait %d ms before sending next the periodic CoAP request.",

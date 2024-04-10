@@ -1,11 +1,8 @@
 /**
- * All of the code in this file is based upon the CoAP source code used
- * as a part of the OpenThread codebase.
+ * All of the code in this file is based upon the both CoAP and CoAP secure
+ * source code used as a part of the OpenThread codebase.
  *
- * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap_secure.cpp
- * https://github.com/openthread/openthread/blob/main/include/openthread/coap_secure.h
- * https://github.com/openthread/openthread/blob/main/include/openthread/coap.h
- * https://github.com/openthread/openthread/blob/main/src/cli/README_COAPS.md
+ * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
 */
 #include "workload.h"
 
@@ -29,13 +26,25 @@ void handleResponse(void *aContext,
     otLogNotePlat("Response from %s of size %" PRIu16 " bytes.",
                   senderAddr, payloadLen);
   }
-
-  otLogNotePlat("End CoAP DTLS Connection.");
-  clientDisconnect();
   return;
 }
 
-void sendRequest(type type, otIp6Address *dest) {
+void createMessageInfo(otSockAddr *aSocket, otMessageInfo *aMessageInfo) {
+  aMessageInfo->mHopLimit = 0;  // default
+
+  aMessageInfo->mPeerAddr = aSocket->mAddress;
+  aMessageInfo->mPeerPort = aSocket->mPort;
+
+  aMessageInfo->mSockAddr = *otThreadGetMeshLocalEid(OT_INSTANCE);
+  aMessageInfo->mSockPort = COAP_SOCK_PORT;
+  return;
+}
+
+void sendRequest(type type, otSockAddr *socket) {
+  otMessageInfo aMessageInfo;
+  EmptyMemory(&aMessageInfo, sizeof(otMessageInfo));
+  createMessageInfo(socket, &aMessageInfo);
+
   otMessage *aRequest = otCoapNewMessage(OT_INSTANCE, NULL);
   if (aRequest == NULL) {
     otLogCritPlat("Failed to create CoAP request.");
@@ -61,40 +70,15 @@ void sendRequest(type type, otIp6Address *dest) {
   error = otMessageAppend(aRequest, response, responseSize);
   HandleMessageError("message append", aRequest, error);
 
-  error = otCoapSecureSendRequest(OT_INSTANCE, aRequest, handleResponse, NULL);
+  error = otCoapSendRequest(OT_INSTANCE, aRequest, &aMessageInfo,
+                            handleResponse, NULL);
   HandleMessageError("send request", aRequest, error);
 
   char destString[OT_IP6_ADDRESS_STRING_SIZE];
-  otIp6AddressToString(dest, destString, OT_IP6_ADDRESS_STRING_SIZE);
+  otIp6AddressToString(&(socket->mAddress), destString, OT_IP6_ADDRESS_STRING_SIZE);
   otLogNotePlat("Sent a %s message of %d bytes to %s.", 
                 type == APeriodic ? "aperiodic" : "periodic",
                 responseSize, destString);
 
-  return;
-}
-
-void handleConnected(bool isConnected, void* context) {
-  if (isConnected) {
-    otLogNotePlat("DTLS conection established.");
-  }
-  else {
-    otLogNotePlat("DTLS connection has been disconnected.");
-  }
-  return;
-}
-
-otError clientConnect(const otSockAddr *socket) {
-  char addressString[OT_IP6_ADDRESS_STRING_SIZE];
-  EmptyMemory(addressString, OT_IP6_ADDRESS_STRING_SIZE);
-
-  otIp6AddressToString(&(socket->mAddress), addressString,
-                       OT_IP6_ADDRESS_STRING_SIZE);
-  otLogNotePlat("Attempting DTLS connection with %s.", addressString);
-
-  return otCoapSecureConnect(OT_INSTANCE, socket, handleConnected, NULL);
-}
-
-void clientDisconnect() {
-  otCoapSecureDisconnect(OT_INSTANCE);
   return;
 }
