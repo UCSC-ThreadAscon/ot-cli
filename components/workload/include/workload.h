@@ -75,7 +75,7 @@ void handleError(otError error, char* desc);
 #define APERIODIC_URI "aperiodic"
 #define APERIODIC_PAYLOAD_SIZE 5
 #define PERIODIC_PAYLOAD_SIZE 219
-#define PERIODIC_WAIT_TIME_MS 120000 // 2 minutes
+#define PERIODIC_WAIT_TIME_MS CONFIG_PERIODIC_WAIT_TIME
 
 typedef enum type {
   APeriodic = 0,

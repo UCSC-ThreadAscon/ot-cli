@@ -25,4 +25,11 @@ menu "UCSC Thread-ASCON Experiment Workload"
       string 'The IP address of the server to establish a CoAP secure connection with.'
       help
           Sets the IPv6 address of the server to establish a CoAP DTLS connection with.
+
+    config PERIODIC_WAIT_TIME
+      int 'The wait time (in milliseconds) for the device to send periodic packets.'
+      default 60000
+      help
+          The wait time for the device to send periodic packets. The default wait time
+          is 60 seconds.
 endmenu
