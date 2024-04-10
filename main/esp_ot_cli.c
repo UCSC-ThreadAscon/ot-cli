@@ -176,35 +176,36 @@ void app_main(void)
     xTaskCreate(periodicWorker, "periodic_client", 10240,
                 (void *) &socket, 5, NULL);
 
-    while (true) {
-      if (otCoapSecureIsConnected(OT_INSTANCE))
-      {
-        sendRequest(APeriodic, &server);
+    while (true) { vTaskDelay(MAIN_WAIT_TIME); }
+    // while (true) {
+    //   if (otCoapSecureIsConnected(OT_INSTANCE))
+    //   {
+    //     sendRequest(APeriodic, &server);
 
-        uint32_t nextWaitTime = aperiodicWaitTimeMs();
-        otLogNotePlat(
-          "Will wait %" PRIu32 " ms before sending next aperiodic CoAP request.",
-          nextWaitTime
-        );
+    //     uint32_t nextWaitTime = aperiodicWaitTimeMs();
+    //     otLogNotePlat(
+    //       "Will wait %" PRIu32 " ms before sending next aperiodic CoAP request.",
+    //       nextWaitTime
+    //     );
 
-        TickType_t lastWakeupTime = xTaskGetTickCount();
+    //     TickType_t lastWakeupTime = xTaskGetTickCount();
   
-        /**
-         * If quotient "nextWaitTime" < "portTICK_PERIOD_MS", then
-         * MS_TO_TICKS(nextWaitTime) == 0, causing `vTaskDelayUntil()`
-         * to crash. When this happens, set the delay to be exactly
-         * `portTICK_PERIOD_MS`.
-        */
-       TickType_t nextWaitTimeTicks =
-          MS_TO_TICKS(nextWaitTime) == 0 ? portTICK_PERIOD_MS :
-            MS_TO_TICKS(nextWaitTime);
+    //     /**
+    //      * If quotient "nextWaitTime" < "portTICK_PERIOD_MS", then
+    //      * MS_TO_TICKS(nextWaitTime) == 0, causing `vTaskDelayUntil()`
+    //      * to crash. When this happens, set the delay to be exactly
+    //      * `portTICK_PERIOD_MS`.
+    //     */
+    //    TickType_t nextWaitTimeTicks =
+    //       MS_TO_TICKS(nextWaitTime) == 0 ? portTICK_PERIOD_MS :
+    //         MS_TO_TICKS(nextWaitTime);
 
-        vTaskDelayUntil(&lastWakeupTime, nextWaitTimeTicks);
-      }
-      else {
-        clientConnect(&socket);
-        vTaskDelay(MAIN_WAIT_TIME);
-      }
-     }
+    //     vTaskDelayUntil(&lastWakeupTime, nextWaitTimeTicks);
+    //   }
+    //   else {
+    //     clientConnect(&socket);
+    //     vTaskDelay(MAIN_WAIT_TIME);
+    //   }
+    //  }
     return;
 }

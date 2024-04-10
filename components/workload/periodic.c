@@ -8,16 +8,19 @@ void periodicWorker(void* context) {
   otSockAddr *socket = (otSockAddr *) context;
 
   while (true) {
-    if (otCoapSecureIsConnected(OT_INSTANCE)) {
+    clientConnect(socket);
+    if (otCoapSecureIsConnected(OT_INSTANCE))
+    {
       sendRequest(Periodic, &(socket->mAddress));
-
-        otLogNotePlat(
-          "Will wait %d ms before sending next the periodic CoAP request.",
-          PERIODIC_WAIT_TIME_MS
-        );
+      otLogNotePlat("Successfully sent packet.");
     } else {
-      clientConnect(socket);
+      otLogNotePlat("Can't connect to server.");
     }
+
+    otLogNotePlat(
+      "Will wait %d ms before sending next the periodic CoAP request.",
+      PERIODIC_WAIT_TIME_MS
+    );
 
     TickType_t lastWakeupTime = xTaskGetTickCount();
     vTaskDelayUntil(&lastWakeupTime, MS_TO_TICKS(PERIODIC_WAIT_TIME_MS));
