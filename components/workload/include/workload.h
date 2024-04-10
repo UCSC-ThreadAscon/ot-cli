@@ -15,8 +15,6 @@
 #include <stdint.h>
 #include <inttypes.h>
 
-#include "x509_cert_key.h"
-
 /**
  * The statement to print when a CoAP request is received is as follows:
  * 
@@ -74,7 +72,7 @@ void handleError(otError error, char* desc);
 #define PERIODIC_URI "periodic"
 #define APERIODIC_URI "aperiodic"
 #define APERIODIC_PAYLOAD_SIZE 5
-#define PERIODIC_PAYLOAD_SIZE 80
+#define PERIODIC_PAYLOAD_SIZE 216
 #define PERIODIC_WAIT_TIME_MS CONFIG_PERIODIC_WAIT_TIME
 
 #define COAP_SERVER_PORT CONFIG_COAP_SERVER_PORT
@@ -85,18 +83,15 @@ typedef enum type {
   Periodic = 1
 } type;
 
-/** ---- CoAP Secure Common API ---- */
-void x509Init();
+/** ---- CoAP Common API ---- */
 uint16_t getPayloadLength(const otMessage *aMessage);
 void getPayload(const otMessage *aMessage, void* buffer);
 
-/* ---- CoAP Secure Server API ---- */
+/* ---- CoAP Server API ---- */
 otError createAPeriodicResource(otCoapResource *aperiodic);
 otError createPeriodicResource(otCoapResource *periodic);
 uint32_t aperiodicWaitTimeMs();
 
-/* ---- CoAP Secure Client API ---- */
-otError clientConnect(const otSockAddr *socket);
-void clientDisconnect();
+/* ---- CoAP Client API ---- */
 void sendRequest(type type, otSockAddr *socket);
 void periodicWorker(void* context);

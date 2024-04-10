@@ -135,7 +135,6 @@ void app_main(void)
 
     /** ---- Set up the CoAP Server ---- */
     checkConnection(OT_INSTANCE);
-    x509Init();
 
     otError error = otCoapStart(OT_INSTANCE, COAP_SOCK_PORT);
 
