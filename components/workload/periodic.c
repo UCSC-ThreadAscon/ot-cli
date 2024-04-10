@@ -8,7 +8,8 @@ void periodicWorker(void* context) {
   otSockAddr *socket = (otSockAddr *) context;
 
   while (true) {
-    if (clientConnect(socket) == OT_ERROR_NONE)
+    clientConnect(socket);
+    if (otCoapSecureIsConnectionActive(OT_INSTANCE))
     {
       sendRequest(Periodic, &(socket->mAddress));
       otLogNotePlat("Successfully sent packet.");
