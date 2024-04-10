@@ -93,7 +93,7 @@ otError createPeriodicResource(otCoapResource *periodic);
 uint32_t aperiodicWaitTimeMs();
 
 /* ---- CoAP Secure Client API ---- */
-void clientConnect(const otSockAddr *socket);
+otError clientConnect(const otSockAddr *socket);
 void clientDisconnect();
 void sendRequest(type type, otIp6Address *dest);
 void periodicWorker(void* context);

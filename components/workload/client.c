@@ -83,7 +83,7 @@ void handleConnected(bool isConnected, void* context) {
   return;
 }
 
-void clientConnect(const otSockAddr *socket) {
+otError clientConnect(const otSockAddr *socket) {
   char addressString[OT_IP6_ADDRESS_STRING_SIZE];
   EmptyMemory(addressString, OT_IP6_ADDRESS_STRING_SIZE);
 
@@ -91,8 +91,7 @@ void clientConnect(const otSockAddr *socket) {
                        OT_IP6_ADDRESS_STRING_SIZE);
   otLogNotePlat("Attempting DTLS connection with %s.", addressString);
 
-  otCoapSecureConnect(OT_INSTANCE, socket, handleConnected, NULL);
-  return;
+  return otCoapSecureConnect(OT_INSTANCE, socket, handleConnected, NULL);
 }
 
 void clientDisconnect() {
