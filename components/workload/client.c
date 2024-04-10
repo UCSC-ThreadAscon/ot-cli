@@ -29,6 +29,8 @@ void handleResponse(void *aContext,
     otLogNotePlat("Response from %s of size %" PRIu16 " bytes.",
                   senderAddr, payloadLen);
   }
+
+  clientDisconnect();
   return;
 }
 
@@ -66,6 +68,7 @@ void sendRequest(type type, otIp6Address *dest) {
   otLogNotePlat("Sent a %s message of %d bytes to %s.", 
                 type == APeriodic ? "aperiodic" : "periodic",
                 responseSize, destString);
+
   return;
 }
 
@@ -91,7 +94,7 @@ void clientConnect(const otSockAddr *socket) {
   return;
 }
 
-void clientDisconect() {
+void clientDisconnect() {
   otCoapSecureDisconnect(OT_INSTANCE);
   return;
 }

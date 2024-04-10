@@ -15,15 +15,12 @@ void periodicWorker(void* context) {
           "Will wait %d ms before sending next the periodic CoAP request.",
           PERIODIC_WAIT_TIME_MS
         );
-
-        otCoapSecureDisconnect(OT_INSTANCE);
-
-        TickType_t lastWakeupTime = xTaskGetTickCount();
-        vTaskDelayUntil(&lastWakeupTime, MS_TO_TICKS(PERIODIC_WAIT_TIME_MS));
     } else {
       clientConnect(socket);
-      vTaskDelay(MAIN_WAIT_TIME);
     }
+
+    TickType_t lastWakeupTime = xTaskGetTickCount();
+    vTaskDelayUntil(&lastWakeupTime, MS_TO_TICKS(PERIODIC_WAIT_TIME_MS));
   }
   return;
 }

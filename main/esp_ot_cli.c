@@ -199,7 +199,6 @@ void app_main(void)
           MS_TO_TICKS(nextWaitTime) == 0 ? portTICK_PERIOD_MS :
             MS_TO_TICKS(nextWaitTime);
 
-        otCoapSecureDisconnect(OT_INSTANCE);
         vTaskDelayUntil(&lastWakeupTime, nextWaitTimeTicks);
       }
       else {
