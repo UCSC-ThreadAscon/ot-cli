@@ -1,4 +1,4 @@
-#include "txpower.h"
+#include "utilities.h"
 
 #include <openthread/thread.h>
 #include <openthread/platform/radio.h>
@@ -24,7 +24,7 @@ otError getTxPower(int8_t *aPowerAddr)
       break;
 
     case OT_ERROR_NONE:
-      otLogNotePlat("TX Power is currently: %" PRId8 ".", *aPowerAddr);
+      otLogNotePlat("Max TX Power is: %" PRId8 " dBm", *aPowerAddr);
       break;
 
     default:
@@ -39,8 +39,6 @@ otError getTxPower(int8_t *aPowerAddr)
   }                                                         \
 
 void setTxPower() {
-  int8_t temp; GetTxPowerOrExit(&temp);
-
   otError error = otPlatRadioSetTransmitPower(esp_openthread_get_instance(),
                                               CONFIG_TX_POWER);
   switch(error)
@@ -50,7 +48,9 @@ void setTxPower() {
       break;
 
     case (OT_ERROR_NONE):
+#if TX_POWER_DEBUG
       otLogNotePlat("Successfully set TX Power.");
+#endif
       break;
 
     default:
@@ -58,6 +58,5 @@ void setTxPower() {
   }
 
   int8_t currentPower; GetTxPowerOrExit(&currentPower);
-  assert(currentPower == CONFIG_TX_POWER);
   return;
 }
