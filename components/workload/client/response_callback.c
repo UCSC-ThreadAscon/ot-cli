@@ -32,7 +32,5 @@ void responseCallback(void *aContext,
                   senderAddr, payloadLen);
 #endif
   }
-
-  deepSleepStart();
   return;
 }
