@@ -1,2 +1,2 @@
-idf_component_register(SRCS "esp_ot_cli.c"
-                       INCLUDE_DIRS ".")
+idf_component_register(SRCS "setup.c" "main.c"
+                       INCLUDE_DIRS "include")
