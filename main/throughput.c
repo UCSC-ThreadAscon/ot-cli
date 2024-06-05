@@ -11,6 +11,6 @@ void tpConfirmable(otSockAddr *socket)
   *socket = createSocket(CONFIG_SERVER_IP_ADDRESS);
   uint32_t payload = 0;
   tpPayload((uint8_t *) &payload);
-  request(socket, (void * ) &payload, TP_PAYLOAD_BYTES, THROUGHPUT_URI);
+  request(socket, (void *) &payload, TP_PAYLOAD_BYTES, THROUGHPUT_URI);
   return;
 }

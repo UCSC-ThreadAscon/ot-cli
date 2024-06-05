@@ -4,6 +4,7 @@
 void app_main(void)
 {
   startMain();
+  checkConnection(OT_INSTANCE);
   coapStart();
 
   otSockAddr socket;

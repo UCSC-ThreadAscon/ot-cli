@@ -21,7 +21,7 @@ menu "UCSC Thread-ASCON Experiment Workload"
           Sets the port used by CoAP server side.
 
     config SERVER_IP_ADDRESS
-      string 'The IP address of the server to establish a CoAP connection with.'
+      string 'IP address of the CoAP server.'
       help
           Sets the IPv6 address of the server to establish a CoAP connection with.
 
