@@ -1,8 +1,9 @@
 /**
  * All of the code in this file is based upon the both CoAP and CoAP secure
- * source code used as a part of the OpenThread codebase. The CoAP and
+ * response handlers, used as a part of the OpenThread codebase. The CoAP and
  * CoAP secure source files can be found at:
- * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
+ * https://github.com/UCSC-ThreadAscon/openthread/blob/main/src/cli/cli_coap.cpp#L1052
+ * https://github.com/UCSC-ThreadAscon/openthread/blob/main/src/cli/cli_coap_secure.cpp#L814
 */
 #include "workload.h"
 #include "sleep.h"
