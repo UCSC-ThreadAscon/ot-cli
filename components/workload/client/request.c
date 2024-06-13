@@ -58,10 +58,12 @@ void addPayload(otMessage *aRequest,
   return;
 }
 
-void send(otMessage *aRequest, otMessageInfo *aMessageInfo)
+void send(otMessage *aRequest,
+          otMessageInfo *aMessageInfo,
+          otCoapResponseHandler responseCallback)
 {
   otError error = otCoapSendRequest(OT_INSTANCE, aRequest, aMessageInfo,
-                                    defaultResponseCallback, NULL);
+                                    responseCallback, NULL);
   HandleMessageError("send request", aRequest, error);
   return;
 }
@@ -82,7 +84,8 @@ void printMessageSent(otSockAddr *socket, size_t payloadSize)
 void request(otSockAddr *socket,
              void *payload,
              size_t payloadSize,
-             const char *uri)
+             const char *uri,
+             otCoapResponseHandler responseCallback)
 {
   otMessageInfo aMessageInfo;
   otMessage *aRequest;
@@ -94,7 +97,7 @@ void request(otSockAddr *socket,
 
   createHeaders(aRequest, &aMessageInfo, uri);
   addPayload(aRequest, payload, payloadSize);
-  send(aRequest, &aMessageInfo);
+  send(aRequest, &aMessageInfo, responseCallback);
 
 #if COAP_DEBUG
   printMessageSent(socket, payloadSize);

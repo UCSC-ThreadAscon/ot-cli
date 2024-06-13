@@ -22,10 +22,18 @@ void coapStart(void);
 void request(otSockAddr *socket,
              void *payload,
              size_t payloadSize,
-             const char *uri);
+             const char *uri,
+             otCoapResponseHandler responseCallback);
 
 /* ---- CoAP Response Handler ---- */
 void defaultResponseCallback(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo,
                              otError aResult);
+
+void tpConfirmableResponseCallback(void *aContext,
+                                   otMessage *aMessage,
+                                   const otMessageInfo *aMessageInfo,
+                                   otError aResult);
+
+void tpConfirmableSend(otSockAddr *socket);

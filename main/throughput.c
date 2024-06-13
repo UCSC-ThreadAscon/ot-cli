@@ -12,14 +12,8 @@ void tpConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  request(socket, (void *) &payload, TP_PAYLOAD_BYTES, THROUGHPUT_URI);
-  return;
-}
-
-void tpConfirmableInit(otSockAddr *socket)
-{
-  *socket = createSocket(CONFIG_SERVER_IP_ADDRESS);
-  tpConfirmableSend(socket); // send the first request.
+  request(socket, (void *) &payload, TP_PAYLOAD_BYTES,
+          THROUGHPUT_URI, tpConfirmableResponseCallback);
   return;
 }
 
@@ -29,7 +23,14 @@ void tpConfirmableResponseCallback(void *aContext,
                                    otError aResult)
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  tpConfirmableSend(&socket);
+  tpConfirmableSend(&socket); // send a request after getting a response.
+  return;
+}
+
+void tpConfirmableInit(otSockAddr *socket)
+{
+  *socket = createSocket(CONFIG_SERVER_IP_ADDRESS);
+  tpConfirmableSend(socket); // send the first request.
   return;
 }
 
