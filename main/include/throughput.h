@@ -7,3 +7,4 @@
 
 void tpConfirmable(otSockAddr *socket);
 void tpPayload(uint8_t *buffer);
+void tpMain(void);

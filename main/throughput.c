@@ -15,7 +15,8 @@ void tpConfirmable(otSockAddr *socket)
   return;
 }
 
-void tpMain() {
+void tpMain()
+{
   otSockAddr socket;
   EmptyMemory(&socket, sizeof(otSockAddr));
 
