@@ -14,3 +14,12 @@ void tpConfirmable(otSockAddr *socket)
   request(socket, (void *) &payload, TP_PAYLOAD_BYTES, THROUGHPUT_URI);
   return;
 }
+
+void tpMain() {
+  otSockAddr socket;
+  EmptyMemory(&socket, sizeof(otSockAddr));
+
+  tpConfirmable(&socket);
+  KEEP_THREAD_ALIVE();
+  return;
+}

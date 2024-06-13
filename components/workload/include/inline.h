@@ -19,8 +19,10 @@
 /**
  * Keeps a thread open so the memory associated with "socket" still exists.
 */
-#define KEEP_THREAD_ALIVE()                           \
-  while (true) { vTaskDelay(THREAD_WAIT_TIME); }      \
+#define KEEP_THREAD_ALIVE()           \
+  while (true) {                      \
+    vTaskDelay(THREAD_WAIT_TIME);     \
+  }                                   \
 
 /**
  * Empties all memory for `size` bytes starting at memory address `pointer`.

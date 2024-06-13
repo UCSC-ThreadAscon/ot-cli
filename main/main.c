@@ -7,9 +7,6 @@ void app_main(void)
   checkConnection(OT_INSTANCE);
   coapStart();
 
-  otSockAddr socket;
-  EmptyMemory(&socket, sizeof(otSockAddr));
-
-  tpConfirmable(&socket);
+  tpMain();
   return;
 }
