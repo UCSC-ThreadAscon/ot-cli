@@ -7,6 +7,9 @@ void app_main(void)
   checkConnection(OT_INSTANCE);
   coapStart();
 
+#if THROUGHPUT_CONFIRMABLE
   tpMain();
+#endif
+
   return;
 }
