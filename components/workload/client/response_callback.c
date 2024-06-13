@@ -8,6 +8,23 @@
 #include "workload.h"
 #include "sleep.h"
 
+void printPayloadInfo(otMessage *aMessage, const otMessageInfo *aMessageInfo)
+{
+  uint16_t payloadLen = getPayloadLength(aMessage);
+  char payload[payloadLen];
+  EmptyMemory(payload, payloadLen);
+  getPayload(aMessage, payload);
+
+  char senderAddr[OT_IP6_ADDRESS_STRING_SIZE];
+  otIp6AddressToString(&(aMessageInfo->mPeerAddr), senderAddr,
+                      OT_IP6_ADDRESS_STRING_SIZE);
+
+#if COAP_DEBUG
+  otLogNotePlat("Response from %s of size %" PRIu16 " bytes.",
+                senderAddr, payloadLen);
+#endif
+}
+
 void defaultResponseCallback(void *aContext,
                      otMessage *aMessage,
                      const otMessageInfo *aMessageInfo,
@@ -19,19 +36,7 @@ void defaultResponseCallback(void *aContext,
   }
   else 
   {
-    uint16_t payloadLen = getPayloadLength(aMessage);
-    char payload[payloadLen];
-    EmptyMemory(payload, payloadLen);
-    getPayload(aMessage, payload);
-
-    char senderAddr[OT_IP6_ADDRESS_STRING_SIZE];
-    otIp6AddressToString(&(aMessageInfo->mPeerAddr), senderAddr,
-                         OT_IP6_ADDRESS_STRING_SIZE);
-
-#if COAP_DEBUG
-    otLogNotePlat("Response from %s of size %" PRIu16 " bytes.",
-                  senderAddr, payloadLen);
-#endif
+    printPayloadInfo(aMessage, aMessageInfo);
   }
   return;
 }
