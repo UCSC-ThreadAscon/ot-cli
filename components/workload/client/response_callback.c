@@ -26,9 +26,9 @@ void printPayloadInfo(otMessage *aMessage, const otMessageInfo *aMessageInfo)
 }
 
 void defaultResponseCallback(void *aContext,
-                     otMessage *aMessage,
-                     const otMessageInfo *aMessageInfo,
-                     otError aResult)
+                             otMessage *aMessage,
+                             const otMessageInfo *aMessageInfo,
+                             otError aResult)
 {
   if (aResult != OT_ERROR_NONE)
   {

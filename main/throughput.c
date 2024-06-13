@@ -1,26 +1,35 @@
 #include "throughput.h"
 
-void tpPayload(uint8_t *buffer) {
+static otSockAddr socket;
+
+void createRandomPayload(uint8_t *buffer) {
   uint32_t random = esp_random();
   memcpy(buffer, &random, TP_PAYLOAD_BYTES);
   return;
 }
 
-void tpConfirmable(otSockAddr *socket)
+void tpConfirmableInit(otSockAddr *socket)
 {
   *socket = createSocket(CONFIG_SERVER_IP_ADDRESS);
   uint32_t payload = 0;
-  tpPayload((uint8_t *) &payload);
+  createRandomPayload((uint8_t *) &payload);
   request(socket, (void *) &payload, TP_PAYLOAD_BYTES, THROUGHPUT_URI);
+  return;
+}
+
+void tpConfirmableResponseCallback(void *aContext,
+                                   otMessage *aMessage,
+                                   const otMessageInfo *aMessageInfo,
+                                   otError aResult)
+{
+  defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
   return;
 }
 
 void tpMain()
 {
-  otSockAddr socket;
   EmptyMemory(&socket, sizeof(otSockAddr));
-
-  tpConfirmable(&socket);
+  tpConfirmableInit(&socket);
   KEEP_THREAD_ALIVE();
   return;
 }

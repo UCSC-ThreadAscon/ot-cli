@@ -26,6 +26,6 @@ void request(otSockAddr *socket,
 
 /* ---- CoAP Response Handler ---- */
 void defaultResponseCallback(void *aContext,
-                      otMessage *aMessage,
-                      const otMessageInfo *aMessageInfo,
-                      otError aResult);
+                             otMessage *aMessage,
+                             const otMessageInfo *aMessageInfo,
+                             otError aResult);
