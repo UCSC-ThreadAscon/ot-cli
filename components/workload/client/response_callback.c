@@ -7,7 +7,7 @@
 #include "workload.h"
 #include "sleep.h"
 
-void responseCallback(void *aContext,
+void defaultResponseCallback(void *aContext,
                      otMessage *aMessage,
                      const otMessageInfo *aMessageInfo,
                      otError aResult)

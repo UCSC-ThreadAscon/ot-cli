@@ -61,7 +61,7 @@ void addPayload(otMessage *aRequest,
 void send(otMessage *aRequest, otMessageInfo *aMessageInfo)
 {
   otError error = otCoapSendRequest(OT_INSTANCE, aRequest, aMessageInfo,
-                                    responseCallback, NULL);
+                                    defaultResponseCallback, NULL);
   HandleMessageError("send request", aRequest, error);
   return;
 }
