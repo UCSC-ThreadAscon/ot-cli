@@ -2,7 +2,7 @@
 
 #include "workload.h"
 
-#define THROUGHPUT_URI "/throughput"
+#define THROUGHPUT_URI "throughput"
 #define TP_PAYLOAD_BYTES 4
 
 void tpConfirmable(otSockAddr *socket);
