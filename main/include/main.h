@@ -30,6 +30,6 @@
 #include "openthread/logging.h"
 #include "openthread/tasklet.h"
 
-#define THROUGHPUT_CONFIRMABLE (NETWORK_PERF_EXPERIMENT == 1)
+#define THROUGHPUT_CONFIRMABLE (CONFIG_NETWORK_PERF_EXPERIMENT == 1)
 
 void startMain();
