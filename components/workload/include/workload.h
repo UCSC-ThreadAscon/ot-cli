@@ -23,7 +23,8 @@ void request(otSockAddr *socket,
              void *payload,
              size_t payloadSize,
              const char *uri,
-             otCoapResponseHandler responseCallback);
+             otCoapResponseHandler responseCallback,
+             otCoapType type);
 
 /* ---- CoAP Response Handler ---- */
 void defaultResponseCallback(void *aContext,

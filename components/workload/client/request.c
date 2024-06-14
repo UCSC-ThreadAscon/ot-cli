@@ -30,11 +30,12 @@ void createMessageInfo(otSockAddr *aSocket, otMessageInfo *aMessageInfo)
 
 void createHeaders(otMessage *aRequest,
                    otMessageInfo *aMessageInfo,
-                   const char *uri)
+                   const char *uri,
+                   otCoapType type)
 {
   otError error = OT_ERROR_NONE;
 
-  otCoapMessageInit(aRequest, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_POST);
+  otCoapMessageInit(aRequest, type, OT_COAP_CODE_POST);
   otCoapMessageGenerateToken(aRequest, OT_COAP_DEFAULT_TOKEN_LENGTH);
 
   error = otCoapMessageAppendUriPathOptions(aRequest, uri);
@@ -85,7 +86,8 @@ void request(otSockAddr *socket,
              void *payload,
              size_t payloadSize,
              const char *uri,
-             otCoapResponseHandler responseCallback)
+             otCoapResponseHandler responseCallback,
+             otCoapType type)
 {
   otMessageInfo aMessageInfo;
   otMessage *aRequest;
@@ -95,7 +97,7 @@ void request(otSockAddr *socket,
 
   aRequest = createCoapMessage();
 
-  createHeaders(aRequest, &aMessageInfo, uri);
+  createHeaders(aRequest, &aMessageInfo, uri, type);
   addPayload(aRequest, payload, payloadSize);
   send(aRequest, &aMessageInfo, responseCallback);
 
