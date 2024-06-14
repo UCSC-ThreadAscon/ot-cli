@@ -34,7 +34,7 @@ void tpConfirmableInit(otSockAddr *socket)
   return;
 }
 
-void tpMain()
+void tpMainConfirmable()
 {
   EmptyMemory(&socket, sizeof(otSockAddr));
   tpConfirmableInit(&socket);
