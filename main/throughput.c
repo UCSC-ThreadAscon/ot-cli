@@ -12,7 +12,7 @@ void tpConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  request(socket, (void *) &payload, TP_PAYLOAD_BYTES, THROUGHPUT_URI,
+  request(socket, (void *) &payload, TP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
           tpConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
   return;
 }
