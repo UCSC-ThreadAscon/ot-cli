@@ -9,4 +9,4 @@
 
 void createRandomPayload(uint8_t *buffer);
 void tpMainConfirmable(void);
-void tpMainNonconfirmable(void);
+void tpMainNonConfirmable(void);
