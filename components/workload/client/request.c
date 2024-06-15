@@ -71,6 +71,8 @@ void send(otMessage *aRequest,
 
 #define CONFIRMABLE_STRING "Confirmable"
 #define NONCONFIRMABLE_STRING "Non-Confirmable"
+#define ACK_STRING "Acknowledgement"
+#define RESET_STRING "Reset"
 
 #define PrintMessage(coapTypeString, payloadSize, destString)   \
   otLogNotePlat("Sent a %s message of %d bytes to %s.",         \
@@ -93,8 +95,13 @@ void printMessageSent(otSockAddr *socket,
     case OT_COAP_TYPE_NON_CONFIRMABLE:
       PrintMessage(NONCONFIRMABLE_STRING, payloadSize, destString);
       break;
-    default:
+    case OT_COAP_TYPE_ACKNOWLEDGMENT:
+      PrintMessage(ACK_STRING, payloadSize, destString);
       break;
+    case OT_COAP_TYPE_RESET:
+      PrintMessage(RESET_STRING, payloadSize, destString);
+    default:
+      otLogCritPlat("The response has an invalid CoAP message type.");
   }
 
   return;
