@@ -100,6 +100,7 @@ void printMessageSent(otSockAddr *socket,
       break;
     case OT_COAP_TYPE_RESET:
       PrintMessage(RESET_STRING, payloadSize, destString);
+      break;
     default:
       otLogCritPlat("The response has an invalid CoAP message type.");
   }
