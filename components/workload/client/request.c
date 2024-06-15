@@ -69,7 +69,16 @@ void send(otMessage *aRequest,
   return;
 }
 
-void printMessageSent(otSockAddr *socket, size_t payloadSize)
+#define CONFIRMABLE_STRING "Confirmable"
+#define NONCONFIRMABLE_STRING "Non-Confirmable"
+
+#define PrintMessage(coapTypeString, payloadSize, destString)   \
+  otLogNotePlat("Sent a %s message of %d bytes to %s.",         \
+                coapTypeString, payloadSize, destString);       \
+
+void printMessageSent(otSockAddr *socket,
+                      size_t payloadSize,
+                      otCoapType type)
 {
   char destString[OT_IP6_ADDRESS_STRING_SIZE];
 
@@ -77,8 +86,17 @@ void printMessageSent(otSockAddr *socket, size_t payloadSize)
                        destString,
                        OT_IP6_ADDRESS_STRING_SIZE);
 
-  otLogNotePlat("Sent a message of %d bytes to %s.", 
-                payloadSize, destString);
+  switch (type) {
+    case OT_COAP_TYPE_CONFIRMABLE:
+      PrintMessage(CONFIRMABLE_STRING, payloadSize, destString);
+      break;
+    case OT_COAP_TYPE_NON_CONFIRMABLE:
+      PrintMessage(NONCONFIRMABLE_STRING, payloadSize, destString);
+      break;
+    default:
+      break;
+  }
+
   return;
 }
 
@@ -102,7 +120,7 @@ void request(otSockAddr *socket,
   send(aRequest, &aMessageInfo, responseCallback);
 
 #if COAP_DEBUG
-  printMessageSent(socket, payloadSize);
+  printMessageSent(socket, payloadSize, type);
 #endif
   return;
 }
