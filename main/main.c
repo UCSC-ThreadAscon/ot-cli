@@ -8,7 +8,7 @@ void app_main(void)
   coapStart();
 
 #if THROUGHPUT_CONFIRMABLE
-  tpMain();
+  tpMainConfirmable();
 #endif
 
   return;

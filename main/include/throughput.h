@@ -8,4 +8,4 @@
 #define TP_PAYLOAD_BYTES 4
 
 void createRandomPayload(uint8_t *buffer);
-void tpMain(void);
+void tpMainConfirmable(void);

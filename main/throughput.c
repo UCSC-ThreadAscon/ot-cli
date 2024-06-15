@@ -29,14 +29,14 @@ void tpConfirmableResponseCallback(void *aContext,
 
 void tpConfirmableInit(otSockAddr *socket)
 {
+  EmptyMemory(&socket, sizeof(otSockAddr));
   *socket = createSocket(CONFIG_SERVER_IP_ADDRESS);
   tpConfirmableSend(socket); // send the first request.
   return;
 }
 
-void tpMain()
+void tpMainConfirmable()
 {
-  EmptyMemory(&socket, sizeof(otSockAddr));
   tpConfirmableInit(&socket);
   KEEP_THREAD_ALIVE();
   return;
