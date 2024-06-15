@@ -6,13 +6,13 @@ menu "UCSC Thread-ASCON Experiment Workload"
             If enabled, the Openthread Device will create or connect to thread network with pre-configured
             network parameters automatically. Otherwise, user need to configure Thread via CLI command manually.
 
-    config NETWORK_PERF_EXPERIMENT
-      int 'The network performance experiment to run.'
+    config TIGHT_LOOP_PACKET_TYPE
+      int 'Whether the CoAP packets being sent should be Confirmable or Non-Confirmable.'
       default 0
       help
-        Set '0' to run no experiment (primarily used for debugging purposes).
-        Set '1' to run the Throughput Confirmable experiment.
-        Set '2' to run the Throughput Non-Confirmable experiment.
+        Set '0' to send no packets in a tight loop.
+        Set '1' to run send CONFIRMABLE packets in a tight loop.
+        Set '2' to run the NON-CONFIRMABLE packets in a tight loop.
 
     config TX_POWER
       int 'Set the 802.15.4 TX power used by OpenThread.'

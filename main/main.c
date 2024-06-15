@@ -1,5 +1,5 @@
 #include "main.h"
-#include "throughput.c"
+#include "tight_loop.h"
 
 void app_main(void)
 {
@@ -7,10 +7,10 @@ void app_main(void)
   checkConnection(OT_INSTANCE);
   coapStart();
 
-#if THROUGHPUT_CONFIRMABLE
-  tpMainConfirmable();
-#elif THROUGHPUT_NONCONFIRMABLE
-  tpMainNonConfirmable();
+#if CONFIRMABLE
+  ConfirmableMain();
+#elif NONCONFIRMABLE
+  NonConfirmableMain();
 #endif
 
   return;

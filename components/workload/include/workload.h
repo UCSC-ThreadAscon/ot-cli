@@ -32,9 +32,9 @@ void defaultResponseCallback(void *aContext,
                              const otMessageInfo *aMessageInfo,
                              otError aResult);
 
-void tpConfirmableResponseCallback(void *aContext,
+void confirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
                                    otError aResult);
 
-void tpConfirmableSend(otSockAddr *socket);
+void confirmableSend(otSockAddr *socket);
