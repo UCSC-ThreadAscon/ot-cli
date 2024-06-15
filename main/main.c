@@ -9,6 +9,8 @@ void app_main(void)
 
 #if THROUGHPUT_CONFIRMABLE
   tpMainConfirmable();
+#elif THROUGHPUT_NONCONFIRMABLE
+  tpMainNonConfirmable();
 #endif
 
   return;
