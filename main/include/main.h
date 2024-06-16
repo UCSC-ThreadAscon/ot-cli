@@ -30,7 +30,7 @@
 #include "openthread/logging.h"
 #include "openthread/tasklet.h"
 
-#define CONFIRMABLE (CONFIG_TIGHT_LOOP_PACKET_TYPE == 1)
-#define NONCONFIRMABLE (CONFIG_TIGHT_LOOP_PACKET_TYPE == 2)
+#define CONFIRMABLE (CONFIG_EXPERIMENT == 1)
+#define NONCONFIRMABLE (CONFIG_EXPERIMENT == 2)
 
 void startMain();
