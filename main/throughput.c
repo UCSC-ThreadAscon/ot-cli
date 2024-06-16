@@ -12,16 +12,16 @@ void createRandomPayload(uint8_t *buffer) {
   return;
 }
 
-void confirmableSend(otSockAddr *socket)
+void tpConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
   request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, CONFIRMABLE_URI,
-          confirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
+          tpConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
   return;
 }
 
-void nonConfirmableSend(otSockAddr *socket)
+void tpNonConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
@@ -30,13 +30,13 @@ void nonConfirmableSend(otSockAddr *socket)
   return;
 }
 
-void confirmableResponseCallback(void *aContext,
+void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
                                    otError aResult)
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  confirmableSend(&socket); // send a request after getting a response.
+  tpConfirmableSend(&socket); // send a request after getting a response.
   return;
 }
 
@@ -44,19 +44,19 @@ void confirmableResponseCallback(void *aContext,
  * Create the socket, and send the first CoAP Confirmable Request.
  * All subsequent requests will be sent by the response handler.
  */
-void ConfirmableMain()
+void tpConfirmableMain()
 {
   InitSocket(&socket);
-  confirmableSend(&socket);
+  tpConfirmableSend(&socket);
   KEEP_THREAD_ALIVE();
   return;
 }
 
-void NonConfirmableMain()
+void tpNonConfirmableMain()
 {
   InitSocket(&socket);
   while (true) {
-    nonConfirmableSend(&socket);
+    tpNonConfirmableSend(&socket);
   }
 
   KEEP_THREAD_ALIVE();

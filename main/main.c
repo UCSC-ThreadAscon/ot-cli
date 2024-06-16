@@ -8,9 +8,9 @@ void app_main(void)
   coapStart();
 
 #if CONFIRMABLE
-  ConfirmableMain();
+  tpConfirmableMain();
 #elif NONCONFIRMABLE
-  NonConfirmableMain();
+  tpNonConfirmableMain();
 #endif
 
   return;
