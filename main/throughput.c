@@ -2,10 +2,6 @@
 
 static otSockAddr socket;
 
-#define InitSocket(socketPtr)                            \
-  EmptyMemory(socketPtr, sizeof(otSockAddr));            \
-  *socketPtr = createSocket(CONFIG_SERVER_IP_ADDRESS);   \
-
 void createRandomPayload(uint8_t *buffer) {
   uint32_t random = esp_random();
   memcpy(buffer, &random, TIGHT_LOOP_PAYLOAD_BYTES);
