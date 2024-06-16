@@ -7,9 +7,9 @@ void app_main(void)
   checkConnection(OT_INSTANCE);
   coapStart();
 
-#if CONFIRMABLE
+#if THROUGHPUT_CONFIRMABLE
   tpConfirmableMain();
-#elif NONCONFIRMABLE
+#elif THROUGHPUT_NONCONFIRMABLE
   tpNonConfirmableMain();
 #endif
 

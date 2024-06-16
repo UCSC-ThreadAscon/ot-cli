@@ -16,7 +16,7 @@ void tpConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, CONFIRMABLE_URI,
+  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
           tpConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
   return;
 }
@@ -25,7 +25,7 @@ void tpNonConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, NONCONFIRMABLE_URI,
+  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_NONCONFIRMABLE_URI,
           NULL, OT_COAP_TYPE_NON_CONFIRMABLE);
   return;
 }
