@@ -11,6 +11,8 @@ void app_main(void)
   tpConfirmableMain();
 #elif THROUGHPUT_NONCONFIRMABLE
   tpNonConfirmableMain();
+#elif PACKET_LOSS_CONFIRMABLE
+  plConfirmableMain();
 #endif
 
   return;
