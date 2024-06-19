@@ -36,10 +36,11 @@ menu "UCSC Thread-ASCON Experiment Workload"
       help
           Sets the IPv6 address of the server to establish a CoAP connection with.
 
-    config PERIODIC_WAIT_TIME
-      int 'The wait time (in milliseconds) for the device to send periodic packets.'
-      default 60000
+    config DEBUG
+      int 'Toggles debugging print statements.'
+      range 0 1
+      default 0
       help
-          The wait time for the device to send periodic packets. The default wait time
-          is 60 seconds.
+          Set to "0" to turn off debugging print statements.
+          Set to "1" to turn on debugging print statements.
 endmenu
