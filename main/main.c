@@ -13,6 +13,8 @@ void app_main(void)
   tpNonConfirmableMain();
 #elif PACKET_LOSS_CONFIRMABLE
   plConfirmableMain();
+#elif PACKET_LOSS_NONCONFIRMABLE
+  plNonConfirmableMain();
 #endif
 
   return;

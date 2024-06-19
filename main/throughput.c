@@ -54,7 +54,6 @@ void tpNonConfirmableMain()
   while (true) {
     tpNonConfirmableSend(&socket);
   }
-
   KEEP_THREAD_ALIVE();
   return;
 }

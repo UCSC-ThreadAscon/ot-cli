@@ -12,6 +12,16 @@ void plConfirmableSend(otSockAddr *socket)
   return;
 }
 
+void plNonConfirmableSend(otSockAddr *socket) 
+{
+  static uint32_t sequenceNum = 0;
+  request(socket, (void *) &sequenceNum, TIGHT_LOOP_PAYLOAD_BYTES,
+          PACKET_LOSS_NONCONFIRMABLE_URI, NULL,
+          OT_COAP_TYPE_NON_CONFIRMABLE);
+  sequenceNum += 1;
+  return;
+}
+
 void plConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
@@ -25,6 +35,16 @@ void plConfirmableMain()
 {
   InitSocket(&socket);
   plConfirmableSend(&socket);
+  KEEP_THREAD_ALIVE();
+  return;
+}
+
+void plNonConfirmableMain()
+{
+  InitSocket(&socket);
+  while (true) {
+    plNonConfirmableSend(&socket);
+  }
   KEEP_THREAD_ALIVE();
   return;
 }
