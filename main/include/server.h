@@ -19,3 +19,6 @@ void defaultRequestHandler(void* aContext,
 void delayRequestHandler(void *aContext,
                          otMessage *aMessage,
                          const otMessageInfo *aMessageInfo);
+
+otError expServerStart(void* aContext, uint8_t argsLength, char* aArgs[]);
+otError expServerFree(void* aContext, uint8_t argsLength, char* aArgs[]);

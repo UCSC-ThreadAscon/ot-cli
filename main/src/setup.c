@@ -12,6 +12,24 @@
  * CONDITIONS OF ANY KIND, either express or implied.
 */
 #include "main.h"
+#include "server.h"
+
+#define COMMANDS_LENGTH 2
+
+static const otCliCommand commands[] = {
+  {"exp-server-start", expServerStart},
+  {"exp-server-stop", expServerFree}
+};
+
+void otCliVendorSetUserCommands() {
+  otError error = otCliSetUserCommands(commands, COMMANDS_LENGTH, NULL);
+  if (error != OT_ERROR_NONE) {
+    otLogCritPlat("Failed to set custom commands.");
+  } else {
+    otLogNotePlat("Successfully set custom commands.");
+  }
+  return;
+}
 
 #if CONFIG_OPENTHREAD_STATE_INDICATOR_ENABLE
 #include "ot_led_strip.h"
