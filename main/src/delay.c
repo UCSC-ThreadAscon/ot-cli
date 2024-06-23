@@ -16,3 +16,9 @@ void delayConfirmableResponseCallback(void *aContext,
   delayConfirmableSend(socket);   // send another request after getting response
   return;
 }
+
+void delayConfirmableMain()
+{
+  KEEP_THREAD_ALIVE();
+  return;
+}
