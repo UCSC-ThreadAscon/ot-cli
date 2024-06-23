@@ -25,7 +25,7 @@ menu "UCSC Thread-ASCON Experiment Workload"
       default 20
       help
           Set the 802.15.4 transmission power (in dBm) for OpenThread.
-          The recommended TX power values are 20 dBm, 9 dBm, 0 dBm, and -25 dBm.
+          The recommended TX power values are 20 dBm, 9 dBm, 0 dBm, and -24 dBm.
 
     config COAP_SERVER_PORT
       int 'The port number for the CoAP server.'
