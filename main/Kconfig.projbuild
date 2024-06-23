@@ -9,13 +9,15 @@ menu "UCSC Thread-ASCON Experiment Workload"
     config EXPERIMENT
       int 'The network performance experiment to run.'
       default 0
+      range 0 6
       help
-        Set '0' to run no experiment (primarily used for debugging purposes).
-        Set '1' to run the Throughput Confirmable experiment.
-        Set '2' to run the Throughput Non-Confirmable experiment.
-        Set '3' to run the Packet Loss Confirmable experiment.
-        Set '4' to run the Packet Loss Non-Confirmable experiment.
-        Set '5' to run the Delay experiment.
+        Set the flag to '0' to run no experiment (primarily used for debugging purposes).
+        Set the flag to '1' to run the Throughput Confirmable experiment.
+        Set the flag to '2' to run the Throughput Non-Confirmable experiment.
+        Set the flag to '3' to run the Packet Loss Confirmable experiment.
+        Set the flag to '4' to run the Packet Loss Non-Confirmable experiment.
+        Set the flag to '5' to run the Delay experiment, with the device acting as the SERVER.
+        Set the flag to '6' to run the Delay experiment, with the device acting as the CLIENT.
 
     config TX_POWER
       int 'Set the 802.15.4 TX power used by OpenThread.'
