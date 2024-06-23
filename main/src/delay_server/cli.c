@@ -18,7 +18,7 @@ otError expServerStart(void* aContext, uint8_t argsLength, char* aArgs[])
   checkConnection(OT_INSTANCE);
   startCoapServer(OT_DEFAULT_COAP_PORT);
 
-  createResource(experimentRoute, "Delay Confirmable", defaultRequestHandler);
+  createResource(experimentRoute, "Delay Confirmable", delayRequestHandler);
   return OT_ERROR_NONE;
 }
 
