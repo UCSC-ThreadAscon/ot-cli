@@ -6,7 +6,7 @@ void app_main(void)
   startMain();
   checkConnection(OT_INSTANCE);
 
-#if !DELAY_SERVER:
+#if !DELAY_SERVER
   coapStart();
 #endif
 
