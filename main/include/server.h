@@ -1,8 +1,7 @@
 #pragma once
 
 #include "workload.h"
-
-#define DELAY_URI "delay-confirmable"
+#include "tight_loop.h"
 
 otError createResource(otCoapResource *resource,
                        const char *resourceName,

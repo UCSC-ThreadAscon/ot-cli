@@ -6,6 +6,7 @@
 #define THROUGHPUT_NONCONFIRMABLE_URI "throughput-nonconfirmable"
 #define PACKET_LOSS_CONFIRMABLE_URI "packet-loss-confirmable"
 #define PACKET_LOSS_NONCONFIRMABLE_URI "packet-loss-nonconfirmable"
+#define DELAY_URI "delay-confirmable"
 
 #define TIGHT_LOOP_PAYLOAD_BYTES 4
 
