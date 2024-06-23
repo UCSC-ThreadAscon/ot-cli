@@ -5,7 +5,10 @@ void app_main(void)
 {
   startMain();
   checkConnection(OT_INSTANCE);
+
+#if !DELAY_SERVER:
   coapStart();
+#endif
 
 #if THROUGHPUT_CONFIRMABLE
   tpConfirmableMain();
