@@ -1,6 +1,7 @@
 #pragma once
 
 #include "workload.h"
+#include "socket.h"
 
 #define THROUGHPUT_CONFIRMABLE_URI "throughput-confirmable"
 #define THROUGHPUT_NONCONFIRMABLE_URI "throughput-nonconfirmable"
@@ -9,10 +10,6 @@
 #define DELAY_URI "delay-confirmable"
 
 #define TIGHT_LOOP_PAYLOAD_BYTES 4
-
-#define InitSocket(socketPtr)                            \
-  EmptyMemory(socketPtr, sizeof(otSockAddr));            \
-  *socketPtr = createSocket(CONFIG_SERVER_IP_ADDRESS);   \
 
 void createRandomPayload(uint8_t *buffer);
 void tpConfirmableMain(void);
