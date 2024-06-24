@@ -1,9 +1,30 @@
-#include "tight_loop.h"
+#include "delay.h"
 
 static otSockAddr *socket;
 
+/**
+ * If the network time isn't synchronized, wait for 5 seconds, then check again.
+ * Repeat this process of checking and waiting until the network time is synchronized,
+ * in which you can send the packets.
+ */
 void delayConfirmableSend(otSockAddr *socket)
 {
+  uint64_t networkTime = 0;
+  otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
+
+  do {
+    if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
+      request(socket, (void *) &networkTime, DELAY_PACKET_BYTES,
+              PACKET_LOSS_CONFIRMABLE_URI, plConfirmableResponseCallback,
+              OT_COAP_TYPE_CONFIRMABLE);
+    }
+    else {
+      PrintTimeSyncError(status);
+      vTaskDelay(WAIT_TIME_TICKS);
+    }
+  }
+  while (status != OT_NETWORK_TIME_SYNCHRONIZED);
+
   return;
 }
 
