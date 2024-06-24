@@ -10,9 +10,10 @@ static otSockAddr socket;
 void delayConfirmableSend(otSockAddr *socket)
 {
   uint64_t networkTime = 0;
-  otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
+  otNetworkTimeStatus status = OT_NETWORK_TIME_UNSYNCHRONIZED;
 
   do {
+    status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
     if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
       request(socket, (void *) &networkTime, DELAY_PACKET_BYTES,
               DELAY_URI, delayConfirmableResponseCallback,
