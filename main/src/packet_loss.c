@@ -33,7 +33,7 @@ void plConfirmableResponseCallback(void *aContext,
 
 void plConfirmableMain()
 {
-  InitSocket(&socket);
+  InitSocket(&socket, SERVER_IP);
   plConfirmableSend(&socket);
   KEEP_THREAD_ALIVE();
   return;
@@ -41,7 +41,7 @@ void plConfirmableMain()
 
 void plNonConfirmableMain()
 {
-  InitSocket(&socket);
+  InitSocket(&socket, SERVER_IP);
   while (true) {
     plNonConfirmableSend(&socket);
   }

@@ -42,7 +42,7 @@ void tpConfirmableResponseCallback(void *aContext,
  */
 void tpConfirmableMain()
 {
-  InitSocket(&socket);
+  InitSocket(&socket, SERVER_IP);
   tpConfirmableSend(&socket);
   KEEP_THREAD_ALIVE();
   return;
@@ -50,7 +50,7 @@ void tpConfirmableMain()
 
 void tpNonConfirmableMain()
 {
-  InitSocket(&socket);
+  InitSocket(&socket, SERVER_IP);
   while (true) {
     tpNonConfirmableSend(&socket);
   }

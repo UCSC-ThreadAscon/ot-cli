@@ -48,7 +48,7 @@ void networkTimeSyncCallbback(void *aCallbackContext)
 void delayConfirmableMain()
 {
   otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallbback, NULL);
-  InitSocket(&socket);
+  InitSocket(&socket, DELAY_SERVER_IP);
   delayConfirmableSend(&socket);
   KEEP_THREAD_ALIVE();
   return;
