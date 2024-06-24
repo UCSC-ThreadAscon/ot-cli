@@ -34,7 +34,7 @@ void delayConfirmableResponseCallback(void *aContext,
                                       otError aResult)
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  delayConfirmableSend(socket);   // send another request after getting response
+  delayConfirmableSend(&socket);   // send another request after getting response
   return;
 }
 
