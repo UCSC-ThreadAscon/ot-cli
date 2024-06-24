@@ -21,6 +21,8 @@ void tpNonConfirmableMain(void);
 void plConfirmableMain(void);
 void plNonConfirmableMain(void);
 
+void delayConfirmableMain(void);
+
 void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
@@ -32,3 +34,9 @@ void plConfirmableResponseCallback(void *aContext,
                                    const otMessageInfo *aMessageInfo,
                                    otError aResult);
 void plConfirmableSend(otSockAddr *socket);
+
+void delayConfirmableResponseCallback(void *aContext,
+                                      otMessage *aMessage,
+                                      const otMessageInfo *aMessageInfo,
+                                      otError aResult);
+void delayConfirmableSend(otSockAddr *socket);

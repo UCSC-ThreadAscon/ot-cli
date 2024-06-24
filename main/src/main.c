@@ -18,6 +18,8 @@ void app_main(void)
   plConfirmableMain();
 #elif PACKET_LOSS_NONCONFIRMABLE
   plNonConfirmableMain();
+#elif DELAY_CLIENT
+  delayConfirmableSend();
 #endif
 
   return;

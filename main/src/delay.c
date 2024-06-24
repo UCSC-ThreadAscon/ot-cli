@@ -15,7 +15,7 @@ void delayConfirmableSend(otSockAddr *socket)
   do {
     if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
       request(socket, (void *) &networkTime, DELAY_PACKET_BYTES,
-              PACKET_LOSS_CONFIRMABLE_URI, plConfirmableResponseCallback,
+              DELAY_URI, delayConfirmableResponseCallback,
               OT_COAP_TYPE_CONFIRMABLE);
     }
     else {
