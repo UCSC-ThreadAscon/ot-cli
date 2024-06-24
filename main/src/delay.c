@@ -1,6 +1,6 @@
 #include "delay.h"
 
-static otSockAddr *socket;
+static otSockAddr socket;
 
 /**
  * If the network time isn't synchronized, wait for 5 seconds, then check again.
@@ -34,12 +34,14 @@ void delayConfirmableResponseCallback(void *aContext,
                                       otError aResult)
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  delayConfirmableSend(socket);   // send another request after getting response
+  delayConfirmableSend(&socket);   // send another request after getting response
   return;
 }
 
 void delayConfirmableMain()
 {
+  InitSocket(&socket);
+  delayConfirmableSend(&socket);
   KEEP_THREAD_ALIVE();
   return;
 }
