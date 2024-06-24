@@ -19,7 +19,7 @@ void app_main(void)
 #elif PACKET_LOSS_NONCONFIRMABLE
   plNonConfirmableMain();
 #elif DELAY_CLIENT
-  delayConfirmableSend();
+  delayConfirmableMain();
 #endif
 
   return;
