@@ -38,8 +38,15 @@ void delayConfirmableResponseCallback(void *aContext,
   return;
 }
 
+void networkTimeSyncCallbback(void *aCallbackContext)
+{
+  otLogNotePlat("The Network Time has now been synchronized.");
+  return;
+}
+
 void delayConfirmableMain()
 {
+  otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallbback, NULL);
   InitSocket(&socket);
   delayConfirmableSend(&socket);
   KEEP_THREAD_ALIVE();
