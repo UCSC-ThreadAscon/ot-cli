@@ -7,6 +7,8 @@
 #define WAIT_TIME_MS 5000
 #define WAIT_TIME_TICKS WAIT_TIME_MS / portTICK_PERIOD_MS
 
+#define DELAY_SERVER_IP CONFIG_DELAY_SERVER_IP_ADDRESS
+
 #define PrintTimeSyncError(status)                                          \
   if (status == OT_NETWORK_TIME_UNSYNCHRONIZED) {                           \
     otLogCritPlat("The network time is currently unsynchronized.");         \
