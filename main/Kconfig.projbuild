@@ -39,7 +39,7 @@ menu "UCSC Thread-ASCON Experiment Workload"
           Sets the IPv6 address of the server to establish a CoAP connection with.
 
     config DELAY_SERVER_IP_ADDRESS
-      string 'The IP Address of the CoAP server fo the delay test.'
+      string 'The IP Address of the CoAP server for the delay test.'
       help
           Sets the IPv6 addres of the CoAP server to send packets to for the delay tests.
 
