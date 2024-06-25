@@ -1,4 +1,5 @@
 #include "server.h"
+#include "delay.h"
 
 static otCoapResource *experimentRoute;
 
@@ -16,10 +17,11 @@ void startCoapServer(uint16_t port) {
 otError expServerStart(void* aContext, uint8_t argsLength, char* aArgs[]) 
 {
   checkConnection(OT_INSTANCE);
-  startCoapServer(OT_DEFAULT_COAP_PORT);
 
+  startCoapServer(OT_DEFAULT_COAP_PORT);
   experimentRoute = calloc(1, sizeof(otCoapResource));
   createResource(experimentRoute, "Delay Confirmable", delayRequestHandler);
+
   return OT_ERROR_NONE;
 }
 

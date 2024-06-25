@@ -5,18 +5,6 @@
 
 static uint32_t Delays[DELAY_MAX_PACKETS];
 
-void InitDelaysArray() {
-  EmptyMemory(Delays, sizeof(Delays));
-  return;
-}
-
-void TestDelaysArrayEmpty() {
-  for (int i = 0; i < DELAY_MAX_PACKETS; i++) {
-    assert(Delays[i] == 0);
-  }
-  return;
-}
-
 uint64_t getTimeSent(otMessage *aMessage)
 {
   uint64_t sent = 0;

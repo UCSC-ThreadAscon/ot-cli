@@ -22,5 +22,5 @@
   otLogNotePlat("%.7f ms, or", delayMs);                  \
   otLogNotePlat("%.7f seconds", delaySecs);               \
 
-void InitDelaysArray(void);
-void TestDelaysArrayEmpty(void);
+void initDelaysArray(void);
+void testDelaysArrayEmpty(void);
