@@ -1,4 +1,5 @@
 #include "tight_loop.h"
+#include "server.h"
 
 #include <openthread/platform/time.h>
 #include <openthread/network_time.h> 
@@ -23,8 +24,10 @@
   otLogNotePlat("%.7f seconds", delaySecs);                                       \
 
 #define PrintAverageDelay(delayUs, delayMs, delaySecs)    \
+  PrintDelimiter();                                       \
   otLogNotePlat("The AVERAGE delay is:");                 \
   otLogNotePlat("%" PRIu64 " us, or", delayUs);           \
   otLogNotePlat("%.7f ms, or", delayMs);                  \
   otLogNotePlat("%.7f seconds", delaySecs);               \
+  PrintDelimiter();                                       \
 

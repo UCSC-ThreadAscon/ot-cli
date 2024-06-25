@@ -39,6 +39,15 @@ void delayRequestHandler(void* aContext,
     index += 1;
 
     PrintDelimiter();
+
+    if (index == DELAY_MAX_PACKETS) {
+      /**
+       * TODO:
+       *  Print out the average delay. You can average it the traditional way, by summing
+       *  everything first, but if you do that, you need to have a way to watch for overflow.
+       *  Another approach is to use an iterative average.
+       */
+    }
   }
 
   return;
