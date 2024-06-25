@@ -2,6 +2,7 @@
 
 #include "workload.h"
 #include "tight_loop.h"
+#include "delay.h"
 
 otError createResource(otCoapResource *resource,
                        const char *resourceName,

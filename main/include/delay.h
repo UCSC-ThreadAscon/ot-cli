@@ -15,3 +15,9 @@
     otLogCritPlat("The network time needs to be resynced.");                \
   }                                                                         \
 
+#define PrintDelayResults(delayUs, delayMs, delaySecs)    \
+  otLogNotePlat("The delay is:");                         \
+  otLogNotePlat("%" PRIu64 " us, or", delayUs);           \
+  otLogNotePlat("%.7f ms, or", delayMs);                  \
+  otLogNotePlat("%.7f seconds", delaySecs);               \
+
