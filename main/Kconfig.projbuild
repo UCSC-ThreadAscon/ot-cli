@@ -42,12 +42,4 @@ menu "UCSC Thread-ASCON Experiment Workload"
       string 'The IP Address of the CoAP server for the delay test.'
       help
           Sets the IPv6 addres of the CoAP server to send packets to for the delay tests.
-
-    config DEBUG
-      int 'Toggles debugging print statements.'
-      range 0 1
-      default 0
-      help
-          Set to "0" to turn off debugging print statements.
-          Set to "1" to turn on debugging print statements.
 endmenu
