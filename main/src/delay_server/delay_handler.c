@@ -12,6 +12,7 @@ void delayRequestHandler(void* aContext,
                          otMessage *aMessage,
                          const otMessageInfo *aMessageInfo)
 {
+  PrintDelimiter();
   uint64_t sent = getTimeSent(aMessage);
   uint64_t received = 0;
   otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
@@ -27,5 +28,6 @@ void delayRequestHandler(void* aContext,
   }
 
   defaultRequestHandler(aContext, aMessage, aMessageInfo);
+  PrintDelimiter();
   return;
 }
