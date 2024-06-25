@@ -15,7 +15,6 @@ void delayConfirmableSend(otSockAddr *socket)
   do {
     status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
     if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
-      otLogNotePlat("The network time is %" PRIu64 ".", networkTime);
       request(socket, (void *) &networkTime, DELAY_PACKET_BYTES,
               DELAY_URI, delayConfirmableResponseCallback,
               OT_COAP_TYPE_CONFIRMABLE);
