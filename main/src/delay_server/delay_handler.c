@@ -1,6 +1,4 @@
 #include "server.h"
-#include "time_api.h"
-#include "average.h"
 
 static uint64_t DelaysUs[DELAY_MAX_PACKETS];
 
