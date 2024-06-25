@@ -18,7 +18,6 @@ void startCoapServer(uint16_t port) {
 otError expServerStart(void* aContext, uint8_t argsLength, char* aArgs[]) 
 {
   checkConnection(OT_INSTANCE);
-  otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallbback, NULL);
   startCoapServer(OT_DEFAULT_COAP_PORT);
 
   experimentRoute = calloc(1, sizeof(otCoapResource));

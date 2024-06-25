@@ -42,7 +42,6 @@ void delayConfirmableResponseCallback(void *aContext,
 
 void delayConfirmableMain()
 {
-  otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallbback, NULL);
   InitSocket(&socket, DELAY_SERVER_IP);
   delayConfirmableSend(&socket);
   KEEP_THREAD_ALIVE();

@@ -6,6 +6,10 @@ void app_main(void)
   startMain();
   checkConnection(OT_INSTANCE);
 
+#if (DELAY_SERVER || DELAY_CLIENT)
+  otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallbback, NULL);
+#endif
+
 #if !DELAY_SERVER
   coapStart();
 #endif
