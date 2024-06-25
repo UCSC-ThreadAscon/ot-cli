@@ -1,10 +1,19 @@
 #include "server.h"
 #include "time_api.h"
 
+#include <assert.h>
+
 static uint32_t Delays[DELAY_MAX_PACKETS];
 
 void InitDelaysArray() {
   EmptyMemory(Delays, sizeof(Delays));
+  return;
+}
+
+void TestDelaysArrayEmpty() {
+  for (int i = 0; i < DELAY_MAX_PACKETS; i++) {
+    assert(Delays[i] == 0);
+  }
   return;
 }
 
