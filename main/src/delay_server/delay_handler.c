@@ -1,7 +1,6 @@
 #include "server.h"
 #include "time_api.h"
-
-#include <assert.h>
+#include "average.h"
 
 static uint64_t DelaysUs[DELAY_MAX_PACKETS];
 
@@ -27,9 +26,7 @@ void delayRequestHandler(void* aContext,
 
     if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
       DelaysUs[index] = received - sent;
-      double delayMs = US_TO_MS((double) DelaysUs[index]);
-      double delaySecs = US_TO_SECONDS((double) DelaysUs[index]);
-      PrintDelayResults(index, DelaysUs[index], delayMs, delaySecs);
+      PrintDelayResults(index, DelaysUs[index]);
     }
     else {
       otLogCritPlat("Current delay test failed due to Time Sync Error.");
@@ -47,6 +44,8 @@ void delayRequestHandler(void* aContext,
        *  everything first, but if you do that, you need to have a way to watch for overflow.
        *  Another approach is to use an iterative average.
        */
+      uint64_t averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
+      PrintAverageDelay(averageDelayUs);
     }
   }
 
