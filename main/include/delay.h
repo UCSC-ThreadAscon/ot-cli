@@ -6,6 +6,7 @@
 #define DELAY_PACKET_BYTES 8
 #define WAIT_TIME_MS 5000
 #define WAIT_TIME_TICKS WAIT_TIME_MS / portTICK_PERIOD_MS
+#define DELAY_MAX_PACKETS 1000
 
 #define PrintTimeSyncError(status)                                          \
   if (status == OT_NETWORK_TIME_UNSYNCHRONIZED) {                           \
@@ -21,3 +22,4 @@
   otLogNotePlat("%.7f ms, or", delayMs);                  \
   otLogNotePlat("%.7f seconds", delaySecs);               \
 
+void InitDelaysArray(void);

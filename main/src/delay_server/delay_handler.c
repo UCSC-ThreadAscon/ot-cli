@@ -1,6 +1,13 @@
 #include "server.h"
 #include "time_api.h"
 
+static uint32_t Delays[DELAY_MAX_PACKETS];
+
+void InitDelaysArray() {
+  EmptyMemory(Delays, sizeof(Delays));
+  return;
+}
+
 uint64_t getTimeSent(otMessage *aMessage)
 {
   uint64_t sent = 0;
@@ -13,6 +20,7 @@ void delayRequestHandler(void* aContext,
                          const otMessageInfo *aMessageInfo)
 {
   PrintDelimiter();
+
   uint64_t sent = getTimeSent(aMessage);
   uint64_t received = 0;
   otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
