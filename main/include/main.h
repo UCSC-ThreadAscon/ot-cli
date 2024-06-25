@@ -30,6 +30,9 @@
 #include "openthread/logging.h"
 #include "openthread/tasklet.h"
 
+#include "openthread/platform/time.h"
+#include "openthread/network_time.h"
+
 #define THROUGHPUT_CONFIRMABLE (CONFIG_EXPERIMENT == 1)
 #define THROUGHPUT_NONCONFIRMABLE (CONFIG_EXPERIMENT == 2)
 #define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 3)
@@ -39,3 +42,4 @@
 #define DELAY_CLIENT (CONFIG_EXPERIMENT == 6)
 
 void startMain();
+void networkTimeSyncCallbback(void *aCallbackContext);

@@ -1,4 +1,5 @@
 #include "delay.h"
+#include "main.h"
 
 static otSockAddr socket;
 
@@ -36,12 +37,6 @@ void delayConfirmableResponseCallback(void *aContext,
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
   delayConfirmableSend(&socket);   // send another request after getting response
-  return;
-}
-
-void networkTimeSyncCallbback(void *aCallbackContext)
-{
-  otLogNotePlat("The Network Time has now been synchronized.");
   return;
 }
 

@@ -3,7 +3,7 @@
 
 #include <assert.h>
 
-static uint32_t Delays[DELAY_MAX_PACKETS];
+static uint64_t DelaysUs[DELAY_MAX_PACKETS];
 
 uint64_t getTimeSent(otMessage *aMessage)
 {
@@ -16,23 +16,30 @@ void delayRequestHandler(void* aContext,
                          otMessage *aMessage,
                          const otMessageInfo *aMessageInfo)
 {
-  PrintDelimiter();
+  static uint32_t index = 0;
 
-  uint64_t sent = getTimeSent(aMessage);
-  uint64_t received = 0;
-  otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
+  if (index < DELAY_MAX_PACKETS) {
+    PrintDelimiter();
 
-  if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
-    uint64_t delayUs = received - sent;
-    double delayMs = US_TO_MS((double) delayUs);
-    double delaySecs = US_TO_SECONDS((double) delayUs);
-    PrintDelayResults(delayUs, delayMs, delaySecs);
+    uint64_t sent = getTimeSent(aMessage);
+    uint64_t received = 0;
+    otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
+
+    if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
+      DelaysUs[index] = received - sent;
+      double delayMs = US_TO_MS((double) DelaysUs[index]);
+      double delaySecs = US_TO_SECONDS((double) DelaysUs[index]);
+      PrintDelayResults(DelaysUs[index], delayMs, delaySecs);
+    }
+    else {
+      otLogCritPlat("Current delay test failed due to Time Sync Error.");
+    }
+
+    defaultRequestHandler(aContext, aMessage, aMessageInfo);
+    index += 1;
+
+    PrintDelimiter();
   }
-  else {
-    otLogCritPlat("Current delay test failed due to Time Sync Error.");
-  }
 
-  defaultRequestHandler(aContext, aMessage, aMessageInfo);
-  PrintDelimiter();
   return;
 }
