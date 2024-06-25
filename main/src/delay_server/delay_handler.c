@@ -29,7 +29,7 @@ void delayRequestHandler(void* aContext,
       DelaysUs[index] = received - sent;
       double delayMs = US_TO_MS((double) DelaysUs[index]);
       double delaySecs = US_TO_SECONDS((double) DelaysUs[index]);
-      PrintDelayResults(DelaysUs[index], delayMs, delaySecs);
+      PrintDelayResults(index, DelaysUs[index], delayMs, delaySecs);
     }
     else {
       otLogCritPlat("Current delay test failed due to Time Sync Error.");
